@@ -1,0 +1,263 @@
+import React, { useEffect, useState } from "react";
+import { FaRegComment } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import { FaRegBookmark } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { BiRepost } from "react-icons/bi";
+import {
+  createComment,
+  deletePost,
+  likeUnLike,
+} from "../../../../store (3)/api/postApi";
+import { timeSince } from "../../../../lib/date";
+import Swal from "sweetalert2";
+
+function PostDetails({ onePost }) {
+  const formatedDate = timeSince(onePost.createdAt);
+  const [comment, setComment] = useState("");
+  const [isBookmark, setIsBookmark] = useState(false);
+  const [post, setPosts] = useState([]);
+  const [isLike, setLike] = useState(false);
+  const {
+    postLoading,
+    allPostList,
+    commentLoading,
+    creatPostLoading,
+    commentError,
+  } = useSelector((state) => state.post);
+  const { userData } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setPosts(onePost);
+  }, [allPostList, postLoading, onePost]);
+
+  const handleBookmark = () => {
+    setIsBookmark(!isBookmark);
+  };
+
+  const handleDelete = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to Delete this post!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deletePost(data));
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
+
+  const handleLike = async (data) => {
+    await dispatch(likeUnLike(data));
+  };
+  useEffect(() => {
+    if (post.length !== 0 && !postLoading) {
+      setLike(post.likes.includes(userData._id));
+    }
+  }, [post, postLoading, userData._id]);
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createComment({ id: post?._id, data: { text: comment } }));
+    setComment("");
+  };
+
+  return (
+    <>
+      {!postLoading && post.length !== 0 && post && (
+        <div className="border-b border-gray-800 pt-4 pb-2 px-4 hover:bg-gray-900/30 transition duration-200 cursor-pointer">
+          <div className="postInfo flex justify-between items-center pr-10 text-start">
+            <div className="userinfo w-full">
+              <Link to={`/profile/${post?.user?._id}`} className="flex gap-3">
+                <div className="avatar">
+                  <div className="w-10 h-10 rounded-full overflow-hidden">
+                    {post?.user?.profilePic ? (
+                      <img src={post?.user?.profilePic} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="relative w-10 h-10 overflow-hidden bg-gray-800 rounded-full">
+                        <svg
+                          className="absolute w-12 h-12 text-gray-400 -left-1"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                  <span className="font-bold hover:underline text-white">{post?.user?.userName}</span>
+                  <span className="text-gray-500 text-sm">@{post?.user?.email}</span>
+                  <span className="text-gray-500 text-sm hidden sm:inline">·</span>
+                  <span className="text-gray-500 text-sm hover:underline">{formatedDate}</span>
+                </div>
+              </Link>
+            </div>
+            {!creatPostLoading &&
+              !postLoading &&
+              post &&
+              post.length !== 0 &&
+              post?.user !== undefined &&
+              post?.user?._id?.toString() === userData._id?.toString() && (
+                <div
+                  className="trash"
+                  onClick={() => {
+                    handleDelete(post._id);
+                  }}
+                >
+                  <FaTrash className="cursor-pointer hover:text-red-700" />
+                </div>
+              )}
+          </div>
+          <div className="postData pl-14 pr-4 flex flex-col">
+            {post.text && (
+              <span className="pb-3 w-full text-start text-white text-[15px] leading-normal">{post.text}</span>
+            )}
+            {post.image && (
+              <div className="overflow-hidden rounded-2xl border border-gray-800 mt-2">
+                <img
+                  src={post.image}
+                  className="w-full h-auto max-h-[500px] object-cover"
+                />
+              </div>
+            )}
+            <div className="react flex justify-between w-full mt-3 max-w-md">
+              <div
+                className="flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors"
+                onClick={() => {
+                  document
+                    .getElementById("comment_modal" + post._id)
+                    .showModal();
+                }}
+              >
+                <div className="p-2 rounded-full group-hover:bg-blue-500/10 transition-colors">
+                  <FaRegComment className="w-4 h-4" />
+                </div>
+                <span className="text-sm">
+                  {post.comment.length || 0}
+                </span>
+                <dialog
+                  id={`comment_modal${post._id}`}
+                  className="modal border-none outline-none"
+                >
+                  <div className="modal-box bg-black border border-gray-800 rounded-2xl shadow-2xl">
+                    <h3 className="font-bold text-lg mb-4">comment</h3>
+                    <div className="flex flex-col gap-3 max-h-60 overflow-auto">
+                      {post.comment.length === 0 && (
+                        <p className="text-sm text-slate-500">
+                          No comment yet 🤔 Be the first one 😉
+                        </p>
+                      )}
+                      {commentError && (
+                        <div className="text-red-500 ">{commentError}</div>
+                      )}
+                      {post.comment.map((comment) => (
+                        <div key={comment._id}>
+                          <Link
+                            to={`/profile/${comment.user.userName}`}
+                            className="flex gap-2 items-start"
+                          >
+                            <div className="avatar">
+                              <div className="w-8 rounded-full">
+                                <img
+                                  src={
+                                    comment.user.profilePic ||
+                                    "/avatar-placeholder.png"
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className="flex flex-col">
+                              <div className="flex items-center gap-1">
+                                <span className="font-bold">
+                                  {comment.user.userName}
+                                </span>
+                                <span className="text-gray-700 text-sm">
+                                  @{comment.user.userName}
+                                </span>
+                              </div>
+                              <div className="text-sm">{comment.text}</div>
+                            </div>
+                          </Link>{" "}
+                        </div>
+                      ))}
+                    </div>
+                    <form
+                      className="flex gap-2 items-center mt-4 border-t border-gray-600 pt-2"
+                      onSubmit={handleCommentSubmit}
+                    >
+                      <textarea
+                        className="textarea w-full p-1 rounded text-md resize-none border focus:outline-none  border-gray-800"
+                        placeholder="Add a comment..."
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                      />
+                      <button className="btn btn-primary rounded-full btn-sm text-white px-4">
+                        {commentLoading ? (
+                          <span className="loading loading-spinner loading-md"></span>
+                        ) : (
+                          "comment"
+                        )}
+                      </button>
+                    </form>
+                  </div>
+                  <form method="dialog" className="modal-backdrop">
+                    <button className="outline-none">close</button>
+                  </form>
+                </dialog>
+              </div>
+              <div className="repost flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-green-500 transition-colors">
+                <div className="p-2 rounded-full group-hover:bg-green-500/10 transition-colors">
+                  <BiRepost className="w-5 h-5" />
+                </div>
+              </div>
+              <div
+                className="like flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-pink-500 transition-colors"
+                onClick={() => {
+                  handleLike(post._id);
+                }}
+              >
+                <div className="p-2 rounded-full group-hover:bg-pink-500/10 transition-colors">
+                  {isLike ? (
+                    <FaRegHeart className="w-4 h-4 text-pink-500 fill-current" />
+                  ) : (
+                    <FaRegHeart className="w-4 h-4" />
+                  )}
+                </div>
+                <span className={`text-sm ${isLike ? "text-pink-500" : ""}`}>{post?.likes?.length}</span>
+              </div>
+              <div className="bookmark cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors" onClick={handleBookmark}>
+                <div className="p-2 rounded-full group-hover:bg-blue-500/10 transition-colors">
+                  {!isBookmark ? (
+                    <FaRegBookmark className="w-4 h-4" />
+                  ) : (
+                    <FaRegBookmark className="w-4 h-4 text-blue-500 fill-current" />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default PostDetails;
