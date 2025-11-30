@@ -12,7 +12,7 @@ const showNotification = (title, icon) => {
 
 export const getAllPosts = createAsyncThunk("post/getAllPosts", async (_, { rejectWithValue }) => {
     try {
-        const res = await axios.get("http://localhost:8000/api/post/all", { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/all`, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response.data.message)
@@ -20,7 +20,7 @@ export const getAllPosts = createAsyncThunk("post/getAllPosts", async (_, { reje
 })
 export const getPost = createAsyncThunk("post/getPost", async (id, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`http://localhost:8000/api/post/${id}`, { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/${id}`, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response?.data?.message || error.message)
@@ -28,7 +28,7 @@ export const getPost = createAsyncThunk("post/getPost", async (id, { rejectWithV
 })
 export const getLikedPosts = createAsyncThunk("post/getLikedPosts", async (_, { rejectWithValue }) => {
     try {
-        const res = await axios.get("http://localhost:8000/api/post/liked", { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/liked`, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response.data.message)
@@ -36,7 +36,7 @@ export const getLikedPosts = createAsyncThunk("post/getLikedPosts", async (_, { 
 })
 export const getFollowingPosts = createAsyncThunk("post/getFollowingPosts", async (_, { rejectWithValue }) => {
     try {
-        const res = await axios.get("http://localhost:8000/api/post/following", { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/following`, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response.data.message)
@@ -44,7 +44,7 @@ export const getFollowingPosts = createAsyncThunk("post/getFollowingPosts", asyn
 })
 export const getUserPosts = createAsyncThunk("post/getUserPosts", async (id, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`http://localhost:8000/api/post/user/${id}`, { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/user/${id}`, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response.data.message)
@@ -52,7 +52,7 @@ export const getUserPosts = createAsyncThunk("post/getUserPosts", async (id, { r
 })
 export const createPost = createAsyncThunk("post/createPost", async (data, { rejectWithValue }) => {
     try {
-        const res = await axios.post(`http://localhost:8000/api/post/createpost`, data, { withCredentials: true })
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/post/createpost`, data, { withCredentials: true })
         showNotification("posted", "success");
         return res.data
     } catch (error) {
@@ -61,7 +61,7 @@ export const createPost = createAsyncThunk("post/createPost", async (data, { rej
 })
 export const deletePost = createAsyncThunk("post/deletePost", async (id, { rejectWithValue }) => {
     try {
-        const res = await axios.delete(`http://localhost:8000/api/post/${id}`, { withCredentials: true })
+        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/post/${id}`, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response.data.message)
@@ -69,7 +69,7 @@ export const deletePost = createAsyncThunk("post/deletePost", async (id, { rejec
 })
 export const createComment = createAsyncThunk("comment/createComment", async ({ id, data }, { rejectWithValue }) => {
     try {
-        const res = await axios.post(`http://localhost:8000/api/post/comment/${id}`, data, { withCredentials: true });
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/post/comment/${id}`, data, { withCredentials: true });
         showNotification("commited", "success");
         return res.data;
     } catch (error) {
@@ -78,7 +78,7 @@ export const createComment = createAsyncThunk("comment/createComment", async ({ 
 });
 export const likeUnLike = createAsyncThunk("post/likeUnLike", async (id, { rejectWithValue }) => {
     try {
-        const res = await axios.put(`http://localhost:8000/api/post/like/${id}`, {}, { withCredentials: true })
+        const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/post/like/${id}`, {}, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response.data.message)

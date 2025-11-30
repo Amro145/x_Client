@@ -135,7 +135,7 @@ function Profile() {
                   <FaLink className="w-4 h-4" />
                   <a
                     className="text-blue-500 hover:underline text-sm truncate max-w-[200px]"
-                    href={`http://localhost:5173/profile/${myProfile?._id}`}
+                    href={`${window.location.origin}/profile/${myProfile?._id}`}
                   >
                     {`profile/${myProfile?._id}`}
                   </a>
