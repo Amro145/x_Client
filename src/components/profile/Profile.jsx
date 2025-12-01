@@ -8,10 +8,11 @@ import PostDetails from "../Home/post/PostDetails";
 import EditProfile from "./EditProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../../store (3)/api/postApi";
-import { editProfile, followUnFollow, ProfileFn } from "../../../store (3)/api/userApi";
+import { editProfile, ProfileFn } from "../../../store (3)/api/userApi";
 import { timeSince } from "../../../lib/date";
 import { getFollowers, getFollowing } from "../../../store (3)/api/authApi";
 import RightBarButton from "../Home/Rightpar/RightBarButton";
+import FollowUnfollow from "./FollowUnfollow";
 
 function Profile() {
   const { myProfile, profileLoading, error, userData } = useSelector((state) => state.auth);
@@ -183,12 +184,7 @@ function Profile() {
               {isMyProfile ? (
                 <EditProfile />
               ) : (
-                <button
-                  className="btn bg-white text-black hover:bg-gray-200 border-none rounded-full btn-sm font-bold px-4"
-                  onClick={() => dispatch(followUnFollow(params.id))}
-                >
-                  <RightBarButton id={params.id} />
-                </button>
+          <FollowUnfollow id={params.id} status={userData?.following?.includes(myProfile?._id)}/>
               )}
             </div>
           </div>

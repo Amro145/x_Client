@@ -1,41 +1,46 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { followUnFollow } from "../../../store (3)/api/userApi";
+import { useSelector } from "react-redux";
 
-function FollowUnfollow({ user }) {
-  const { followStatus, followLoading, profileLoading, userData } = useSelector(
+function FollowUnfollow({ id, status }) {
+  const { userData, loading } = useSelector(
     (state) => state.auth
   );
-  const dispatch = useDispatch();
 
-  const [isFollow, setIsFollow] = useState(userData.following.includes(user));
+  const [isFollow, setIsFollow] = useState(status);
+  const [followLoading, setFollowLoading] = useState(false)
 
-  useEffect(() => {
-    if (user !== undefined && user !== null && !followLoading) {
-      setIsFollow(followStatus);
-    }
-  }, [followStatus, user, followLoading]);
   const handleFollowUnfollow = async (userId) => {
-    if (!profileLoading && user !== undefined && user !== null) {
-      dispatch(followUnFollow(userId));
+    try {
+      setFollowLoading(true)
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/follow/${id}`, {}, { withCredentials: true })
+      console.log(res.data?.isFollowing)
+      setIsFollow(res.data?.isFollowing)
+      setFollowLoading(false)
+    } catch (error) {
+      console.log(error)
+
     }
-  };
+
+  }
+
 
   return (
     <button
       className="btn outline bg-transparent hover:bg-white hover:opacity-90 rounded  px-5 relative left-10 mt-5 mb-10 "
       onClick={(e) => {
         e.preventDefault();
-        handleFollowUnfollow(user?._id);
+        handleFollowUnfollow(id);
       }}
 
     >
-      {followLoading
+      {followLoading || loading
         ? "loading"
-        : user && isFollow !== null &&
+        : userData && isFollow !== null &&
         (isFollow ? "unFollow" : "Follow")}
     </button>
   );
-}
+
+};
 
 export default FollowUnfollow;
