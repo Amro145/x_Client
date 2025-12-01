@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "../store (3)/api/authApi";
 import Suggested from "./components/Home/Rightpar/Suggested";
+import ServerError from "./components/ServerError";
+
 
 function App() {
   const { userData, checkLoading } = useSelector((state) => state.auth);
@@ -81,6 +83,7 @@ function App() {
               userData?.length !== 0 ? <PostPage /> : <Navigate to="/login" />
             }
           />
+          <Route path="/server-error" element={<ServerError />} />
         </Routes>
       )}
     </BrowserRouter>

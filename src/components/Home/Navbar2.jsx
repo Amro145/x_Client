@@ -7,6 +7,8 @@ import { BiLogOut } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { logout } from "../../../store (3)/api/authApi";
+import { MdGroupAdd } from "react-icons/md";
+
 function Navbar2() {
   const { userData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ function Navbar2() {
         </Link>
         <Link to="/suggested" className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
           <li>
-            <FaUser size={25} />
+            <MdGroupAdd size={25} />
           </li>
         </Link>
         <div onClick={() => dispatch(logout())} className="cursor-pointer hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">

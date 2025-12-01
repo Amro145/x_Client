@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios"
+import axios from "../../src/lib/axios"
 import Swal from "sweetalert2"
 const showNotification = (title, icon) => {
     Swal.fire({

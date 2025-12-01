@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios"
+import axios from "../../src/lib/axios"
 
 export const ProfileFn = createAsyncThunk("user/Profile", async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/profile/${id}`, { withCredentials: true })

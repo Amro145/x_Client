@@ -24,7 +24,7 @@ function Suggested() {
     };
 
     return (
-        <div className="block md:hidden max-w-screen w-screen-[calc(100%-300px)]  overflow-x-hidden h-screen   ">
+        <div className="block  max-w-screen w-screen-[calc(100%-300px)]  overflow-x-hidden h-screen">
             <Link to="/" className="cursor-pointer hover:bg-gray-900/50 transition duration-200 px-4 w-full flex justify-start items-center relative bg-gray-800 py-5">
                 Home
             </Link>
