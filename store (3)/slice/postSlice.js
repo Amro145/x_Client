@@ -107,8 +107,8 @@ const postSlice = createSlice({
             .addCase(deletePost.fulfilled, (state, action) => {
                 state.postLoading = false;
                 state.allPostList = action.payload;
-                if (state.post && state.post._id) {
-                    const exists = action.payload.find(p => p._id === state.post._id);
+                if (state.post && state.post?._id) {
+                    const exists = action.payload.find(p => p?._id === state.post?._id);
                     if (!exists) {
                         state.post = null;
                     }
@@ -126,8 +126,8 @@ const postSlice = createSlice({
             .addCase(createComment.fulfilled, (state, action) => {
                 state.commentLoading = false;
                 state.allPostList = action.payload;
-                if (state.post && state.post._id) {
-                    const updatedPost = action.payload.find(p => p._id === state.post._id);
+                if (state.post && state.post?._id) {
+                    const updatedPost = action.payload.find(p => p?._id === state.post?._id);
                     if (updatedPost) {
                         state.post = updatedPost;
                     }
@@ -145,8 +145,8 @@ const postSlice = createSlice({
             .addCase(likeUnLike.fulfilled, (state, action) => {
                 state.postLoading = false;
                 state.allPostList = action.payload;
-                if (state.post && state.post._id) {
-                    const updatedPost = action.payload.find(p => p._id === state.post._id);
+                if (state.post && state.post?._id) {
+                    const updatedPost = action.payload.find(p => p?._id === state.post?._id);
                     if (updatedPost) {
                         state.post = updatedPost;
                     }

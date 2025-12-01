@@ -140,7 +140,7 @@ const authSlice = createSlice({
             .addCase(editProfile.fulfilled, (state, action) => {
                 state.loading = false
                 state.userData = action.payload
-                if (state.myProfile && state.myProfile._id === action.payload._id) {
+                if (state.myProfile && state.myProfile?._id === action.payload?._id) {
                     state.myProfile = action.payload
                 }
             })

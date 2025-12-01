@@ -66,7 +66,7 @@ function NotifiactionData({ notifiction }) {
         <div className="type pr-5">{handleType()}</div>
         <div className="user grid">
           <Link
-            to={`/profile/${notifiction?.from?._id}`}
+            to={`/profile/${notifiction.from._id}`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="avatar">
