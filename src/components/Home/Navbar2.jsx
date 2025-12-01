@@ -11,31 +11,31 @@ function Navbar2() {
   const { userData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   return (
-    <div className="block md:hidden mb-5  border-b border-gray-700 py-5">
-      <ul className="flex justify-around">
-        <Link to="/">
+    <div className="block md:hidden border-b px-5 border-gray-100 w-full">
+      <ul className="flex justify-between w-full">
+        <Link to="/" className="hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
           <li>
             <MdHomeFilled size={25} />
           </li>
         </Link>
-        <Link to="/notifiction">
+        <Link to="/notifiction" className="hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
           <li>
             <IoNotifications size={25} />
           </li>
 
         </Link>
-        <Link to={`/profile/${userData?._id}`}>
+        <div onClick={() => dispatch(logout())} className="cursor-pointer hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
+          <li>
+            <BiLogOut size={25} />
+          </li>
+        </div>
+        <Link to={`/profile/${userData?._id}`} className="hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
           <li>
             <FaUser size={25} />
           </li>
         </Link>
-        <Link>
-          <li>
-            <BiLogOut size={25} onClick={() => dispatch(logout())} />
-          </li>
-        </Link>
-      </ul>
-    </div>
+      </ul >
+    </div >
   );
 }
 

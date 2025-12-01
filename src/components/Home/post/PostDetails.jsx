@@ -229,7 +229,7 @@ function PostDetails({ onePost }) {
                 </div>
               </div>
               <div
-                className="like flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-pink-500 transition-colors"
+                className="like bg-red-900 flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-pink-500 transition-colors"
                 onClick={() => {
                   handleLike(post._id);
                 }}

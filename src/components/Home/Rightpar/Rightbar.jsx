@@ -24,7 +24,7 @@ function Rightbar() {
   };
 
   return (
-    <div className="hidden py-4 md:block my-4 w-full h-screen overflow-y-auto px-4">
+    <div className="hidden md:block  my-4 w-full h-screen overflow-y-auto px-4">
       <div className="">
         <h2 className="text-xl font-bold mb-4 px-2">Who to follow</h2>
         {suggestedLoading ? (

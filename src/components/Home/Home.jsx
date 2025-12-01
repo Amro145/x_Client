@@ -12,7 +12,7 @@ function Home() {
         <div className="col-span-6 fixed top-0 h-screen">
           <Sidbar />
         </div>
-        <div className="col-span-3 w-1/4 py-4  fixed top-0 right-0 h-screen">
+        <div className="hidden md:block col-span-3 w-1/4 py-4  fixed top-0 right-0 h-screen">
           <Rightbar />
         </div>
         <div className="md:col-span-6 col-span-12 md:col-start-4 col-start-1 border-x border-gray-700">

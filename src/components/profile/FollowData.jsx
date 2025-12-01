@@ -24,7 +24,6 @@ function FollowData({ user }) {
             to={`/profile/${user?._id}`}
             className="flex items-center gap-2"
           >
-            {" "}
             <img
               src={user.profilePic || "/avatar-placeholder.png"}
               alt="profile"

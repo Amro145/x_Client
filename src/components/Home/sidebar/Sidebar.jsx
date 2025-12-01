@@ -86,7 +86,7 @@ function Sidbar() {
                 </div>
               </Link>
 
-              <div className="logout">
+              <div className="logout cursor-pointer hover:bg-gray-900/30 rounded-full flex justify-center items-center pr-4">
                 <Link onClick={() => dispatch(logout())}>
                   <BiLogOut className="h-8 w-8 cursor-pointer" />
                 </Link>
