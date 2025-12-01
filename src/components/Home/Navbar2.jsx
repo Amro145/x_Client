@@ -13,27 +13,28 @@ function Navbar2() {
   return (
     <div className="block md:hidden border-b px-5 border-gray-100 w-full">
       <ul className="flex justify-between w-full">
-        <Link to="/" className="hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
+        <Link to="/" className="hover:bg-gray-100/30 py-5 px-15 w-12 rounded-full flex justify-center items-center ">
           <li>
             <MdHomeFilled size={25} />
           </li>
         </Link>
-        <Link to="/notifiction" className="hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
+        <Link to="/notifiction" className="hover:bg-gray-100/30 py-5 px-15 w-12 rounded-full flex justify-center items-center ">
           <li>
             <IoNotifications size={25} />
           </li>
 
         </Link>
-        <div onClick={() => dispatch(logout())} className="cursor-pointer hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
-          <li>
-            <BiLogOut size={25} />
-          </li>
-        </div>
-        <Link to={`/profile/${userData?._id}`} className="hover:bg-gray-100/30 py-5 w-12 rounded-full flex justify-center items-center ">
+        <Link to={`/profile/${userData?._id}`} className="hover:bg-gray-100/30 py-5 px-15 w-12 rounded-full flex justify-center items-center ">
           <li>
             <FaUser size={25} />
           </li>
         </Link>
+        <div onClick={() => dispatch(logout())} className="cursor-pointer hover:bg-gray-100/30 py-5 px-15 w-12 rounded-full flex justify-center items-center ">
+          <li>
+            <BiLogOut size={25} />
+          </li>
+        </div>
+
       </ul >
     </div >
   );
