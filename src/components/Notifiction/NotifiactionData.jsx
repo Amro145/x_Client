@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { BsPostcardHeart } from "react-icons/bs";
 
 function NotifiactionData({ notifiction }) {
+  console.log(notifiction);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleDeleteOneNotifiaction = (id) => {
@@ -55,44 +56,40 @@ function NotifiactionData({ notifiction }) {
   return (
     <div
       key={notifiction?._id}
-      className="notificton px-5 h-20 flex justify-between items-center border-b border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors"
-      onClick={() => {
-        if (notifiction?.post) {
-          navigate(`/post/${notifiction?.post}`);
-        }
-      }}
     >
-      <div className="left flex  ">
-        <div className="type pr-5">{handleType()}</div>
-        <div className="user grid">
-          <Link
-            to={`/profile/${notifiction.from._id}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="avatar">
-              <div className="w-8 rounded-full">
-                <img
-                  src={notifiction?.from?.profileImg || "/avatar-placeholder.png"}
-                />
+      <Link to={`/post/${notifiction.post}`} className="notificton px-5 h-20 flex justify-between items-center border-b border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+        <div className="left flex  ">
+          <div className="type pr-5">{handleType()}</div>
+          <div className="user grid">
+            <Link
+              to={`/profile/${notifiction.from._id}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="avatar">
+                <div className="w-8 rounded-full">
+                  <img
+                    src={notifiction?.from?.profileImg || "/avatar-placeholder.png"}
+                  />
+                </div>
               </div>
+              <span className="px-5 text-2xl">{notifiction?.from?.userName}</span>
+            </Link>
+            <div className="text ">
+              <span className="text-gray-700">@{notifiction?.from?.userName}</span>
+              <span className=" pl-5">{handleTextType()}</span>
             </div>
-            <span className="px-5 text-2xl">{notifiction?.from?.userName}</span>
-          </Link>
-          <div className="text ">
-            <span className="text-gray-700">@{notifiction?.from?.userName}</span>
-            <span className=" pl-5">{handleTextType()}</span>
           </div>
         </div>
-      </div>
-      <div className="right">
-        <FaTrash
-          className="cursor-pointer hover:text-red-700"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDeleteOneNotifiaction(notifiction?._id);
-          }}
-        />
-      </div>
+        <div className="right">
+          <FaTrash
+            className="cursor-pointer hover:text-red-700"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteOneNotifiaction(notifiction?._id);
+            }}
+          />
+        </div>
+      </Link>
     </div>
   );
 }

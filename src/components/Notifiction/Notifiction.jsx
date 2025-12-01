@@ -39,6 +39,9 @@ function Notifiction() {
       }
     });
   };
+  useEffect(() => {
+    console.log(notificationList);
+  }, [notificationList]);
 
   return (
     <div className="w-full min-h-screen bg-black text-white">

@@ -7,6 +7,7 @@ import { BiSolidLeftArrowCircle } from "react-icons/bi";
 
 function PostPage() {
     const { id } = useParams();
+    console.log(id);
     const dispatch = useDispatch();
     const { post, postLoading, error } = useSelector((state) => state.post);
 

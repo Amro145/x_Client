@@ -20,7 +20,7 @@ export const getAllPosts = createAsyncThunk("post/getAllPosts", async (_, { reje
 })
 export const getPost = createAsyncThunk("post/getPost", async (id, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/${id}`, { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/post/${id}`, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response?.data?.message || error.message)
