@@ -33,7 +33,7 @@ function FollowData({ user }) {
           {user?._id === userData?._id ? (
             <div className="text-gray-500 cursor-not-allowed"> Follow </div>
           ) : (
-          <FollowUnfollow id={user?._id} status={true}/>
+          <FollowUnfollow id={user?._id} status={userData?.following?.includes(user?._id)}/>
           )}
         </div>
       </div>
