@@ -68,9 +68,7 @@ function Sidbar() {
               <Link
                 to={`/profile/${userData?._id}`}
                 className="info flex items-center gap-3 hover:bg-gray-900 p-3 rounded-full transition-colors duration-200 w-full"
-                onClick={() => {
-                  dispatch(ProfileFn(userData?.userName));
-                }}
+          
               >
                 <div className="avatar hidden md:inline-flex">
                   <div className="w-10 h-10 rounded-full overflow-hidden">
