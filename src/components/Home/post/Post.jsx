@@ -5,9 +5,10 @@ import { getAllPosts } from "../../../../store (3)/api/postApi";
 import { useDispatch } from "react-redux";
 
 function Post() {
+  const dispatch = useDispatch();
   const { postLoading, allPostList } = useSelector((state) => state.post);
   const { loading } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+
 
   useEffect(() => {
     dispatch(getAllPosts());

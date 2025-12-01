@@ -11,7 +11,7 @@ function Navbar2() {
   const { userData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   return (
-    <div className="block md:hidden border-b border-gray-100 w-full">
+    <div className="block border-b border-gray-100 w-full">
       <ul className="flex justify-between w-full">
         <Link to="/" className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
           <li>
