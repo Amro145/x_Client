@@ -14,6 +14,10 @@ axiosInstance.interceptors.response.use(
             // Redirect to the server error page
             window.location.href = '/server-error';
         }
+        if (error.response && error.response.status === 401) {
+            // Redirect to the server error page
+            window.location.href = '/login';
+        }
         return Promise.reject(error);
     }
 );
