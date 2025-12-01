@@ -54,7 +54,7 @@ function NotifiactionData({ notifiction }) {
   };
   return (
     <div
-      key={notifiction._id}
+      key={notifiction?._id}
       className="notificton px-5 h-20 flex justify-between items-center border-b border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors"
       onClick={() => {
         if (notifiction.post) {
@@ -66,7 +66,7 @@ function NotifiactionData({ notifiction }) {
         <div className="type pr-5">{handleType()}</div>
         <div className="user grid">
           <Link
-            to={`/profile/${notifiction.from._id}`}
+            to={`/profile/${notifiction.from?._id}`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="avatar">
@@ -89,7 +89,7 @@ function NotifiactionData({ notifiction }) {
           className="cursor-pointer hover:text-red-700"
           onClick={(e) => {
             e.stopPropagation();
-            handleDeleteOneNotifiaction(notifiction._id);
+            handleDeleteOneNotifiaction(notifiction?._id);
           }}
         />
       </div>

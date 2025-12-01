@@ -23,7 +23,7 @@ function Post() {
       ) : (
         <div className=" w-full">
           {allPostList.map((post) => (
-            <PostDetails key={post._id} onePost={post} />
+            <PostDetails key={post?._id} onePost={post} />
           ))}
           <div className="flex justify-center items-center h-16 w-full border-t border-gray-800 text-blue-500 font-medium">
             You completed all posts

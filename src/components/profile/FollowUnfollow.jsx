@@ -25,7 +25,7 @@ function FollowUnfollow({ user }) {
       className="btn outline bg-transparent hover:bg-white hover:opacity-90 rounded  px-5 relative left-10 mt-5 mb-10 "
       onClick={(e) => {
         e.preventDefault();
-        handleFollowUnfollow(user._id);
+        handleFollowUnfollow(user?._id);
       }}
     >
       {followLoading

@@ -64,9 +64,9 @@ function PostDetails({ onePost }) {
   };
   useEffect(() => {
     if (post.length !== 0 && !postLoading) {
-      setLike(post.likes.includes(userData._id));
+      setLike(post.likes.includes(userData?._id));
     }
-  }, [post, postLoading, userData._id]);
+  }, [post, postLoading, userData?._id]);
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     dispatch(createComment({ id: post?._id, data: { text: comment } }));
@@ -115,11 +115,11 @@ function PostDetails({ onePost }) {
               post &&
               post.length !== 0 &&
               post?.user !== undefined &&
-              post?.user?._id?.toString() === userData._id?.toString() && (
+              post?.user?._id?.toString() === userData?._id?.toString() && (
                 <div
                   className="trash"
                   onClick={() => {
-                    handleDelete(post._id);
+                    handleDelete(post?._id);
                   }}
                 >
                   <FaTrash className="cursor-pointer hover:text-red-700" />
@@ -143,7 +143,7 @@ function PostDetails({ onePost }) {
                 className="flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors"
                 onClick={() => {
                   document
-                    .getElementById("comment_modal" + post._id)
+                    .getElementById("comment_modal" + post?._id)
                     .showModal();
                 }}
               >
@@ -154,7 +154,7 @@ function PostDetails({ onePost }) {
                   {post.comment.length || 0}
                 </span>
                 <dialog
-                  id={`comment_modal${post._id}`}
+                  id={`comment_modal${post?._id}`}
                   className="modal border-none outline-none"
                 >
                   <div className="modal-box bg-black border border-gray-800 rounded-2xl shadow-2xl">
@@ -169,7 +169,7 @@ function PostDetails({ onePost }) {
                         <div className="text-red-500 ">{commentError}</div>
                       )}
                       {post.comment.map((comment) => (
-                        <div key={comment._id}>
+                        <div key={comment?._id}>
                           <Link
                             to={`/profile/${comment.user.userName}`}
                             className="flex gap-2 items-start"
@@ -231,7 +231,7 @@ function PostDetails({ onePost }) {
               <div
                 className="like bg-red-900 flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-pink-500 transition-colors"
                 onClick={() => {
-                  handleLike(post._id);
+                  handleLike(post?._id);
                 }}
               >
                 <div className="p-2 rounded-full group-hover:bg-pink-500/10 transition-colors">

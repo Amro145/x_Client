@@ -79,7 +79,7 @@ function Notifiction() {
           notificationList.map((notifiction) => (
             <NotifiactionData
               notifiction={notifiction}
-              key={notifiction._id}
+              key={notifiction?._id}
             />
           ))}
       </div>

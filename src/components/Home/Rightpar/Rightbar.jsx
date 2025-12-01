@@ -32,11 +32,11 @@ function Rightbar() {
         ) : suggestedUserList !== null && suggestedUserList.length !== 0 ? (
           suggestedUserList?.map((user) => {
             return (
-              <div className="flex w-full px-1 justify-start items-center gap-2 " key={user._id}>
+              <div className="flex w-full px-1 justify-start items-center gap-2 " key={user?._id}>
                 <Link
-                  to={`/profile/${user._id}`}
+                  to={`/profile/${user?._id}`}
                   onClick={() => {
-                    handleProfileClick(user._id);
+                    handleProfileClick(user?._id);
                   }}
                 >
                   <div className="user flex py-2 items-center gap-2">
@@ -55,7 +55,7 @@ function Rightbar() {
                 </Link>
                 <div
                   className="button"
-                  onClick={() => dispatch(followUnFollow(user._id))}
+                  onClick={() => dispatch(followUnFollow(user?._id))}
                 >
                   <button
                     className="btn bg-white text-black hover:bg-gray-200 border-none rounded-full btn-sm font-bold px-4"
@@ -63,7 +63,7 @@ function Rightbar() {
                       e.preventDefault();
                     }}
                   >
-                    <RightBarButton id={user._id} />
+                    <RightBarButton id={user?._id} />
                   </button>
                 </div>
               </div>

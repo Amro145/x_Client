@@ -44,13 +44,13 @@ function Profile() {
     dispatch(ProfileFn(params.id));
   }, [dispatch, params.id]);
   useEffect(() => {
-    if (!profileLoading && myProfile._id !== undefined) dispatch(getAllPosts());
+    if (!profileLoading && myProfile?._id !== undefined) dispatch(getAllPosts());
   }, [dispatch, myProfile, profileLoading]);
 
-  const filtered = allPostList.filter((item) => item.user._id === params.id);
+  const filtered = allPostList.filter((item) => item.user?._id === params.id);
   useEffect(() => {
     if (!profileLoading) {
-      setIsMyProfile(params.id === userData._id);
+      setIsMyProfile(params.id === userData?._id);
     }
   }, [profileLoading, userData, params.id]);
 
@@ -211,7 +211,7 @@ function Profile() {
               {!postLoading &&
                 filtered?.length > 0 &&
                 filtered.map((post) => (
-                  <PostDetails key={post._id} onePost={post} />
+                  <PostDetails key={post?._id} onePost={post} />
                 ))}
             </div>
           </div>
