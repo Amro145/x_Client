@@ -66,10 +66,10 @@ function Sidbar() {
           <div className="logout sticky">
             <div className="flex pr-5">
               <Link
-                to={`/profile/${userData._id}`}
+                to={`/profile/${userData?._id}`}
                 className="info flex items-center gap-3 hover:bg-gray-900 p-3 rounded-full transition-colors duration-200 w-full"
                 onClick={() => {
-                  dispatch(ProfileFn(userData.userName));
+                  dispatch(ProfileFn(userData?.userName));
                 }}
               >
                 <div className="avatar hidden md:inline-flex">
@@ -82,7 +82,7 @@ function Sidbar() {
                 </div>
                 <div className="text hidden xl:flex xl:flex-col">
                   <span className="font-bold text-sm"> {userData?.userName || "no username"}</span>
-                  <span className="text-gray-500 text-sm"> @{userData.userName}</span>
+                  <span className="text-gray-500 text-sm"> @{userData?.userName}</span>
                 </div>
               </Link>
 

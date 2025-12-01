@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { followUnFollow } from "../../../store (3)/api/userApi";
 
 function FollowUnfollow({ user }) {
-  const { followStatus, followLoading, profileLoading } = useSelector(
+  const { followStatus, followLoading, profileLoading, userData } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
 
-  const [isFollow, setIsFollow] = useState(followStatus || false);
+  const [isFollow, setIsFollow] = useState(userData.following.includes(user));
 
   useEffect(() => {
     if (user !== undefined && user !== null && !followLoading) {
@@ -20,17 +20,19 @@ function FollowUnfollow({ user }) {
       dispatch(followUnFollow(userId));
     }
   };
+
   return (
     <button
       className="btn outline bg-transparent hover:bg-white hover:opacity-90 rounded  px-5 relative left-10 mt-5 mb-10 "
       onClick={(e) => {
         e.preventDefault();
-        handleFollowUnfollow(user._id);
+        handleFollowUnfollow(user?._id);
       }}
+
     >
       {followLoading
         ? "loading"
-        : user &&
+        : user && isFollow !== null &&
         (isFollow ? "unFollow" : "Follow")}
     </button>
   );

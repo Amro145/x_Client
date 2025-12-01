@@ -29,33 +29,33 @@ function Rightbar() {
         <h2 className="text-xl font-bold mb-4 px-2">Who to follow</h2>
         {suggestedLoading ? (
           <RightBarSkeleton />
-        ) : suggestedUserList !== null && suggestedUserList.length !== 0 ? (
+        ) : suggestedUserList?.length !== 0 ? (
           suggestedUserList?.map((user) => {
             return (
-              <div className="flex w-full px-1 justify-start items-center gap-2 " key={user._id}>
+              <div className="flex w-full px-1 justify-start items-center gap-2 " key={user?._id}>
                 <Link
-                  to={`/profile/${user._id}`}
+                  to={`/profile/${user?._id}`}
                   onClick={() => {
-                    handleProfileClick(user._id);
+                    handleProfileClick(user?._id);
                   }}
                 >
                   <div className="user flex py-2 items-center gap-2">
                     <div className="avatar">
                       <div className="w-10 h-10 rounded-full overflow-hidden">
-                        <img src={user.profileImg || "/avatar-placeholder.png"} className="w-full h-full object-cover" />
+                        <img src={user?.profileImg || "/avatar-placeholder.png"} className="w-full h-full object-cover" />
                       </div>
                     </div>
                     <div className="text grid">
-                      <span className="font-bold hover:underline">{user.userName}</span>
+                      <span className="font-bold hover:underline">{user?.userName}</span>
                       <span className="text-gray-500 text-sm">
-                        @{user.userName}
+                        @{user?.userName}
                       </span>
                     </div>
                   </div>
                 </Link>
                 <div
                   className="button"
-                  onClick={() => dispatch(followUnFollow(user._id))}
+                  onClick={() => dispatch(followUnFollow(user?._id))}
                 >
                   <button
                     className="btn bg-white text-black hover:bg-gray-200 border-none rounded-full btn-sm font-bold px-4"
@@ -63,7 +63,7 @@ function Rightbar() {
                       e.preventDefault();
                     }}
                   >
-                    <RightBarButton id={user._id} />
+                    <RightBarButton id={user?._id} />
                   </button>
                 </div>
               </div>

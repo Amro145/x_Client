@@ -55,7 +55,7 @@ function Notifiction() {
           </Link>
           <div className="dropdown dropdown-end cursor-pointer">
             <div tabIndex={0} role="button" className="m-1 hover:bg-gray-900 rounded-full p-2 transition-colors">
-              {notificationList.length !== 0 && (
+              {notificationList?.length !== 0 && (
                 <IoSettingsOutline className="w-5 h-5 text-white" />
               )}
             </div>
@@ -69,17 +69,17 @@ function Notifiction() {
             </ul>
           </div>
         </div>
-        {!notificationLoading && notificationList.length === 0 && (
+        {!notificationLoading && notificationList?.length === 0 && (
           <p className=" flex  justify-center mt-10 font-bold">
             No Notifiction
           </p>
         )}
         {notificationList?.length > 0 &&
           !notificationLoading &&
-          notificationList.map((notifiction) => (
+          notificationList?.map((notifiction) => (
             <NotifiactionData
               notifiction={notifiction}
-              key={notifiction._id}
+              key={notifiction?._id}
             />
           ))}
       </div>

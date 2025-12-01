@@ -31,34 +31,34 @@ function NotifiactionData({ notifiction }) {
     });
   };
   const handleType = () => {
-    if (notifiction.type === "follow") {
+    if (notifiction?.type === "follow") {
       return <FaUser className="text-3xl text-blue-500" />;
-    } else if (notifiction.type === "like") {
+    } else if (notifiction?.type === "like") {
       return <FaHeart className="text-3xl text-red-500" />;
-    } else if (notifiction.type === "comment") {
+    } else if (notifiction?.type === "comment") {
       return <BsPostcardHeart />;
-    } else if (notifiction.type === "post") {
+    } else if (notifiction?.type === "post") {
       return <BsPostcardHeart />;
     }
   };
   const handleTextType = () => {
-    if (notifiction.type === "follow") {
+    if (notifiction?.type === "follow") {
       return <span className="text-gray-700"> started following you</span>;
-    } else if (notifiction.type === "like") {
+    } else if (notifiction?.type === "like") {
       return <span className="text-gray-700"> liked your post</span>;
-    } else if (notifiction.type === "comment") {
+    } else if (notifiction?.type === "comment") {
       return <span className="text-gray-700"> commented on your post</span>;
-    } else if (notifiction.type === "post") {
+    } else if (notifiction?.type === "post") {
       return <span className="text-gray-700"> posted a new post</span>;
     }
   };
   return (
     <div
-      key={notifiction._id}
+      key={notifiction?._id}
       className="notificton px-5 h-20 flex justify-between items-center border-b border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors"
       onClick={() => {
-        if (notifiction.post) {
-          navigate(`/post/${notifiction.post}`);
+        if (notifiction?.post) {
+          navigate(`/post/${notifiction?.post}`);
         }
       }}
     >
@@ -66,20 +66,20 @@ function NotifiactionData({ notifiction }) {
         <div className="type pr-5">{handleType()}</div>
         <div className="user grid">
           <Link
-            to={`/profile/${notifiction.from._id}`}
+            to={`/profile/${notifiction?.from?._id}`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="avatar">
               <div className="w-8 rounded-full">
                 <img
-                  src={notifiction.from.profileImg || "/avatar-placeholder.png"}
+                  src={notifiction?.from?.profileImg || "/avatar-placeholder.png"}
                 />
               </div>
             </div>
-            <span className="px-5 text-2xl">{notifiction.from.userName}</span>
+            <span className="px-5 text-2xl">{notifiction?.from?.userName}</span>
           </Link>
           <div className="text ">
-            <span className="text-gray-700">@{notifiction.from.userName}</span>
+            <span className="text-gray-700">@{notifiction?.from?.userName}</span>
             <span className=" pl-5">{handleTextType()}</span>
           </div>
         </div>
@@ -89,7 +89,7 @@ function NotifiactionData({ notifiction }) {
           className="cursor-pointer hover:text-red-700"
           onClick={(e) => {
             e.stopPropagation();
-            handleDeleteOneNotifiaction(notifiction._id);
+            handleDeleteOneNotifiaction(notifiction?._id);
           }}
         />
       </div>

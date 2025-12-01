@@ -19,7 +19,7 @@ const initialState = {
     getFollowLoading: false,
     suggestedUserList: [],
     suggestedLoading: false,
-    followStatus: [],
+    followStatus: null,
     followLoading: false,
     profileLoading: false,
 

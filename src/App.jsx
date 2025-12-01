@@ -31,47 +31,47 @@ function App() {
           <Route
             path="/"
             element={
-              userData.length !== 0 ? <Home /> : <Navigate to="/login" />
+              userData?.length !== 0 ? <Home /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/signup"
-            element={userData.length === 0 ? <Signup /> : <Navigate to="/" />}
+            element={userData?.length === 0 ? <Signup /> : <Navigate to="/" />}
           />
           <Route
             path="/login"
-            element={userData.length === 0 ? <Login /> : <Navigate to="/" />}
+            element={userData?.length === 0 ? <Login /> : <Navigate to="/" />}
           />
           <Route
             path="/notifiction"
             element={
-              userData.length !== 0 ? <Notifiction /> : <Navigate to="/login" />
+              userData?.length !== 0 ? <Notifiction /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/profile/:id"
             element={
-              userData.length !== 0 ? <Profile /> : <Navigate to="/login" />
+              userData?.length !== 0 ? <Profile /> : <Navigate to="/login" />
             }
           />
 
           <Route
             path="/profile/followers/:id"
             element={
-              userData.length !== 0 ? <Followers /> : <Navigate to="/login" />
+              userData?.length !== 0 ? <Followers /> : <Navigate to="/login" />
             }
           />
 
           <Route
             path="/profile/following/:id"
             element={
-              userData.length !== 0 ? <Following /> : <Navigate to="/login" />
+              userData?.length !== 0 ? <Following /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/post/:id"
             element={
-              userData.length !== 0 ? <PostPage /> : <Navigate to="/login" />
+              userData?.length !== 0 ? <PostPage /> : <Navigate to="/login" />
             }
           />
         </Routes>

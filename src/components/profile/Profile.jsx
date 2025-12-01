@@ -6,24 +6,25 @@ import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import PostDetails from "../Home/post/PostDetails";
 import EditProfile from "./EditProfile";
-import FollowUnfollow from "./FollowUnfollow";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../../store (3)/api/postApi";
-import { editProfile, ProfileFn } from "../../../store (3)/api/userApi";
+import { editProfile, followUnFollow, ProfileFn } from "../../../store (3)/api/userApi";
 import { timeSince } from "../../../lib/date";
 import { getFollowers, getFollowing } from "../../../store (3)/api/authApi";
-import Navbar2 from "../Home/Navbar2";
+import RightBarButton from "../Home/Rightpar/RightBarButton";
 
 function Profile() {
-  const { myProfile, profileLoading, error } = useSelector((state) => state.auth);
-  const { userData } = useSelector((state) => state.auth);
+  const { myProfile, profileLoading, error, userData } = useSelector((state) => state.auth);
   const { postLoading, allPostList } = useSelector((state) => state.post);
+
   const [isMyProfile, setIsMyProfile] = useState(false);
-  const [coverPic, setcoverPic] = useState(null);
-  const [profilePic, setprofilePic] = useState(null);
-  const [type, setType] = useState("Posts");
+  const [coverPic, setCoverPic] = useState(null);
+  const [profilePic, setProfilePic] = useState(null);
+  const [type, setType] = useState("forYou");
+
   const coverPicRef = useRef(null);
   const profilePicRef = useRef(null);
+
   const params = useParams();
   const dispatch = useDispatch();
 
@@ -32,8 +33,8 @@ function Profile() {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        state === "coverPic" && setcoverPic(reader.result);
-        state === "profilePic" && setprofilePic(reader.result);
+        if (state === "coverPic") setCoverPic(reader.result);
+        if (state === "profilePic") setProfilePic(reader.result);
         dispatch(editProfile({ [state]: reader.result }));
       };
       reader.readAsDataURL(file);
@@ -41,26 +42,35 @@ function Profile() {
   };
 
   useEffect(() => {
-    dispatch(ProfileFn(params.id));
+    if (params.id) {
+      dispatch(ProfileFn(params.id));
+    }
   }, [dispatch, params.id]);
+
   useEffect(() => {
-    if (!profileLoading && myProfile._id !== undefined) dispatch(getAllPosts());
+    if (!profileLoading && myProfile?._id) {
+      dispatch(getAllPosts());
+    }
   }, [dispatch, myProfile, profileLoading]);
 
-  const filtered = allPostList.filter((item) => item.user._id === params.id);
   useEffect(() => {
-    if (!profileLoading) {
-      setIsMyProfile(params.id === userData._id);
+    if (!profileLoading && userData?._id && params.id) {
+      setIsMyProfile(params.id === userData?._id);
     }
   }, [profileLoading, userData, params.id]);
 
+  const filteredPosts = allPostList?.filter((item) => item.user._id === params.id) || [];
+
+  if (profileLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
+      </div>
+    );
+  }
+
   return (
     <>
-      {profileLoading && (
-        <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
-        </div>
-      )}
       {!profileLoading && myProfile ? (
         <>
           <div className="header flex justify-start gap-6 px-4 py-2 items-center sticky top-0 bg-black/80 backdrop-blur-md z-10 border-b border-gray-800">
@@ -70,7 +80,7 @@ function Profile() {
                 <span className="font-bold text-xl text-white">
                   {myProfile?.userName}
                 </span>
-                <span className="text-sm text-gray-500">{filtered?.length || 0} posts</span>
+                <span className="text-sm text-gray-500">{filteredPosts?.length || 0} posts</span>
               </div>
             </Link>
           </div>
@@ -105,6 +115,7 @@ function Profile() {
                     "/avatar-placeholder.png"
                   }
                   className="w-full h-full object-cover"
+                  alt="avatar"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity cursor-pointer">
                   {isMyProfile && (
@@ -168,11 +179,18 @@ function Profile() {
                 </Link>
               </div>
             </div>
-            {isMyProfile ? (
-              <EditProfile />
-            ) : (
-              <FollowUnfollow user={myProfile} />
-            )}
+            <div className="px-4 mt-4">
+              {isMyProfile ? (
+                <EditProfile />
+              ) : (
+                <button
+                  className="btn bg-white text-black hover:bg-gray-200 border-none rounded-full btn-sm font-bold px-4"
+                  onClick={() => dispatch(followUnFollow(params.id))}
+                >
+                  <RightBarButton id={params.id} />
+                </button>
+              )}
+            </div>
           </div>
           <div className="posts mt-10">
             <div className="head mt-4">
@@ -199,18 +217,18 @@ function Profile() {
             </div>
             <div className="post">
               {postLoading && (
-                <div className="flex justify-center h-full items-center absolute top-40 left-1/2">
+                <div className="flex justify-center h-full items-center py-10">
                   <span className="loading loading-spinner w-10" />
                 </div>
               )}
-              {!postLoading && filtered?.length === 0 && (
+              {!postLoading && filteredPosts?.length === 0 && (
                 <p className="text-center my-4">
                   No posts in this tab. Switch 👻
                 </p>
               )}
               {!postLoading &&
-                filtered?.length > 0 &&
-                filtered.map((post) => (
+                filteredPosts?.length > 0 &&
+                filteredPosts.map((post) => (
                   <PostDetails key={post._id} onePost={post} />
                 ))}
             </div>

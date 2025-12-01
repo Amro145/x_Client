@@ -6,7 +6,7 @@ import FollowData from "./FollowData";
 import { FaArrowLeft } from "react-icons/fa";
 
 function Followers() {
-  const { followersList,getFollowLoading } = useSelector((state) => state.auth);
+  const { followersList, getFollowLoading } = useSelector((state) => state.auth);
   console.log(followersList);
   if (!getFollowLoading) {
     console.log(followersList);
@@ -33,7 +33,7 @@ function Followers() {
             </div>
           </Link>
           {followersList?.map((user) => (
-            <FollowData user={user} key={user._id} />
+            <FollowData user={user} key={user?._id} />
           ))}
         </div>
       )}
