@@ -57,7 +57,12 @@ function NotifiactionData({ notifiction }) {
     <div
       key={notifiction?._id}
     >
-      <Link to={`/post/${notifiction.post}`} className="notificton px-5 h-20 flex justify-between items-center border-b border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+      <Link to={notifiction?.type === "post" ?
+        `/post/${notifiction.post}` : notifiction.type === "like" ?
+          `/post/${notifiction.post}` : notifiction.type === "comment" ?
+            `/post/${notifiction.post}` : notifiction.type === "follow" ?
+              `/profile/${notifiction.from._id}` : "/"
+      } className="notificton px-5 h-20 flex justify-between items-center border-b border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
         <div className="left flex  ">
           <div className="type pr-5">{handleType()}</div>
           <div className="user grid">
