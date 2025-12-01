@@ -10,6 +10,7 @@ import PostPage from "./components/PostPage";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "../store (3)/api/authApi";
+import Suggested from "./components/Home/Rightpar/Suggested";
 
 function App() {
   const { userData, checkLoading } = useSelector((state) => state.auth);
@@ -52,6 +53,12 @@ function App() {
             path="/profile/:id"
             element={
               userData?.length !== 0 ? <Profile /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/suggested"
+            element={
+              userData?.length !== 0 ? <Suggested /> : <Navigate to="/login" />
             }
           />
 

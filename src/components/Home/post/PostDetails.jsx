@@ -79,7 +79,7 @@ function PostDetails({ onePost }) {
         <div className="border-b border-gray-800 pt-4 pb-2 px-4 hover:bg-gray-900/30 transition duration-200 cursor-pointer">
           <div className="postInfo flex justify-between items-center pr-10 text-start">
             <div className="userinfo w-full">
-              <Link to={`/profile/${post?.user?._id}`} className="flex gap-3">
+              <Link to={`/profile/${post?.user?._id}`} className="flex gap-3 mb-5">
                 <div className="avatar">
                   <div className="w-10 h-10 rounded-full overflow-hidden">
                     {post?.user?.profilePic ? (
@@ -138,9 +138,8 @@ function PostDetails({ onePost }) {
                 />
               </div>
             )}
-            <div className="react flex justify-between w-full mt-3 max-w-md">
-              <div
-                className="flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors"
+            <div className="react  flex justify-between w-full mt-3 max-w-md">
+              <div className="flex px-5 items-center cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors"
                 onClick={() => {
                   document
                     .getElementById("comment_modal" + post?._id)
@@ -159,7 +158,7 @@ function PostDetails({ onePost }) {
                 >
                   <div className="modal-box bg-black border border-gray-800 rounded-2xl shadow-2xl">
                     <h3 className="font-bold text-lg mb-4">comment</h3>
-                    <div className="flex flex-col gap-3 max-h-60 overflow-auto">
+                    <div className="flex flex-col gap-3 py-5  max-h-60 overflow-auto">
                       {post.comment.length === 0 && (
                         <p className="text-sm text-slate-500">
                           No comment yet 🤔 Be the first one 😉
@@ -193,7 +192,7 @@ function PostDetails({ onePost }) {
                                   @{comment?.user?.userName}
                                 </span>
                               </div>
-                              <div className="text-sm">{comment?.text}</div>
+                              <div className="text-sm text-white">{comment?.text}</div>
                             </div>
                           </Link>{" "}
                         </div>
@@ -228,8 +227,7 @@ function PostDetails({ onePost }) {
                   <BiRepost className="w-5 h-5" />
                 </div>
               </div>
-              <div
-                className="like  flex gap-2 items-center cursor-pointer group text-gray-500 hover:text-pink-500 transition-colors"
+              <div className="like  flex px-5 items-center cursor-pointer group text-gray-500 hover:text-pink-500 transition-colors"
                 onClick={() => {
                   handleLike(post?._id);
                 }}

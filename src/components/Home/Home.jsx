@@ -15,7 +15,7 @@ function Home() {
         <div className="hidden md:block col-span-3 w-1/4 py-4  fixed top-0 right-0 h-screen">
           <Rightbar />
         </div>
-        <div className="md:col-span-6 col-span-12 md:col-start-4 col-start-1 border-x border-gray-700">
+        <div className="md:col-span-6 col-span-12 md:col-start-4 col-start-1 border-x border-transparent lg:border-gray-800">
           <Navbar />
           <div className="mt-4">
             <CreatePost />

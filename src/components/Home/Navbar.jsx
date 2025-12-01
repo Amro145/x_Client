@@ -12,7 +12,7 @@ function Navbar() {
     <>
       <Navbar2 />
       <div
-        className="relative border-b border-gray-800 flex justify-around text-center min-h-[53px] backdrop-blur-md bg-black/60 sticky top-0 z-10"
+        className="sticky top-0 z-10 border-b border-gray-800 flex justify-around text-center min-h-[53px] backdrop-blur-md bg-black/60"
       >
         <button
           onClick={() => {
