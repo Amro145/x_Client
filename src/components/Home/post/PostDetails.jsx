@@ -18,27 +18,22 @@ function PostDetails({ onePost }) {
   const formatedDate = timeSince(onePost.createdAt);
   const [comment, setComment] = useState("");
   const [isBookmark, setIsBookmark] = useState(false);
-  const [post, setPosts] = useState([]);
-  const [isLike, setLike] = useState(false);
+
   const {
     postLoading,
-    allPostList,
     commentLoading,
-    creatPostLoading,
     commentError,
   } = useSelector((state) => state.post);
   const { userData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setPosts(onePost);
-  }, [allPostList, postLoading, onePost]);
+  const isLike = onePost?.likes?.includes(userData?._id);
 
   const handleBookmark = () => {
     setIsBookmark(!isBookmark);
   };
 
-  const handleDelete = (data) => {
+  const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to Delete this post!",
@@ -49,7 +44,7 @@ function PostDetails({ onePost }) {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deletePost(data));
+        dispatch(deletePost(onePost._id));
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
@@ -59,31 +54,28 @@ function PostDetails({ onePost }) {
     });
   };
 
-  const handleLike = async (data) => {
-    await dispatch(likeUnLike(data));
+  const handleLike = () => {
+    dispatch(likeUnLike(onePost._id));
   };
-  useEffect(() => {
-    if (post.length !== 0 && !postLoading) {
-      setLike(post.likes.includes(userData?._id));
-    }
-  }, [post, postLoading, userData?._id]);
+
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    dispatch(createComment({ id: post?._id, data: { text: comment } }));
+    if (!comment.trim()) return;
+    dispatch(createComment({ id: onePost?._id, data: { text: comment } }));
     setComment("");
   };
 
   return (
     <>
-      {!postLoading && post.length !== 0 && post && (
+      {onePost && (
         <div className="border-b border-gray-800 pt-4 pb-2 px-4 hover:bg-gray-900/30 transition duration-200 cursor-pointer">
           <div className="postInfo flex justify-between items-center pr-10 text-start">
             <div className="userinfo w-full">
-              <Link to={`/profile/${post?.user?._id}`} className="flex gap-3 mb-5">
+              <Link to={`/profile/${onePost?.user?._id}`} className="flex gap-3 mb-5">
                 <div className="avatar">
                   <div className="w-10 h-10 rounded-full overflow-hidden">
-                    {post?.user?.profilePic ? (
-                      <img src={post?.user?.profilePic} className="w-full h-full object-cover" />
+                    {onePost?.user?.profilePic ? (
+                      <img src={onePost?.user?.profilePic} className="w-full h-full object-cover" />
                     ) : (
                       <div className="relative w-10 h-10 overflow-hidden bg-gray-800 rounded-full">
                         <svg
@@ -103,46 +95,43 @@ function PostDetails({ onePost }) {
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                  <span className="font-bold hover:underline text-white">{post?.user?.userName}</span>
-                  <span className="text-gray-500 text-sm">@{post?.user?.email}</span>
+                  <span className="font-bold hover:underline text-white">{onePost?.user?.userName}</span>
+                  <span className="text-gray-500 text-sm">@{onePost?.user?.email}</span>
                   <span className="text-gray-500 text-sm hidden sm:inline">·</span>
                   <span className="text-gray-500 text-sm hover:underline">{formatedDate}</span>
                 </div>
               </Link>
             </div>
-            {!creatPostLoading &&
-              !postLoading &&
-              post &&
-              post.length !== 0 &&
-              post?.user !== undefined &&
-              post?.user?._id?.toString() === userData?._id?.toString() && (
-                <div
-                  className="trash"
-                  onClick={() => {
-                    handleDelete(post?._id);
-                  }}
-                >
-                  <FaTrash className="cursor-pointer hover:text-red-700" />
-                </div>
-              )}
+            {onePost?.user?._id?.toString() === userData?._id?.toString() && (
+              <div
+                className="trash"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete();
+                }}
+              >
+                <FaTrash className="cursor-pointer hover:text-red-700" />
+              </div>
+            )}
           </div>
           <div className="postData pl-14 pr-4 flex flex-col">
-            {post.text && (
-              <span className="pb-3 w-full text-start text-white text-[15px] leading-normal">{post.text}</span>
+            {onePost.text && (
+              <span className="pb-3 w-full text-start text-white text-[15px] leading-normal">{onePost.text}</span>
             )}
-            {post.image && (
+            {onePost.image && (
               <div className="overflow-hidden rounded-2xl border border-gray-800 mt-2">
                 <img
-                  src={post.image}
+                  src={onePost.image}
                   className="w-full h-auto max-h-[500px] object-cover"
                 />
               </div>
             )}
             <div className="react  flex justify-between w-full mt-3 max-w-md">
               <div className="flex px-5 items-center cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   document
-                    .getElementById("comment_modal" + post?._id)
+                    .getElementById("comment_modal" + onePost?._id)
                     .showModal();
                 }}
               >
@@ -150,16 +139,17 @@ function PostDetails({ onePost }) {
                   <FaRegComment className="w-4 h-4" />
                 </div>
                 <span className="text-sm">
-                  {post.comment.length || 0}
+                  {onePost.comment.length || 0}
                 </span>
                 <dialog
-                  id={`comment_modal${post?._id}`}
+                  id={`comment_modal${onePost?._id}`}
                   className="modal border-none outline-none"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <div className="modal-box bg-black border border-gray-800 rounded-2xl shadow-2xl">
                     <h3 className="font-bold text-lg mb-4">comment</h3>
-                    <div className="flex flex-col gap-3 py-5  max-h-60 overflow-auto">
-                      {post.comment.length === 0 && (
+                    <div className="flex flex-col gap-4 py-5  max-h-60 overflow-auto">
+                      {onePost.comment.length === 0 && (
                         <p className="text-sm text-slate-500">
                           No comment yet 🤔 Be the first one 😉
                         </p>
@@ -167,52 +157,58 @@ function PostDetails({ onePost }) {
                       {commentError && (
                         <div className="text-red-500 ">{commentError}</div>
                       )}
-                      {post.comment.map((comment) => (
+                      {onePost.comment.map((comment) => (
                         <div key={comment?._id}>
                           <Link
-                            to={`/profile/${comment?.user?.userName}`}
+                            to={`/profile/${comment?.user?._id}`}
                             className="flex gap-2 items-start"
                           >
                             <div className="avatar">
-                              <div className="w-8 rounded-full">
+                              <div className="w-8 h-8 rounded-full overflow-hidden">
                                 <img
                                   src={
                                     comment?.user?.profilePic ||
                                     "/avatar-placeholder.png"
                                   }
+                                  className="w-full h-full object-cover"
                                 />
                               </div>
                             </div>
                             <div className="flex flex-col">
-                              <div className="flex items-center gap-1">
-                                <span className="font-bold">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-white">
                                   {comment?.user?.userName}
                                 </span>
-                                <span className="text-gray-700 text-sm">
+                                <span className="text-gray-500 text-sm">
                                   @{comment?.user?.userName}
                                 </span>
                               </div>
-                              <div className="text-sm text-white">{comment?.text}</div>
+                              <div className="text-sm text-gray-200 mt-1">{comment?.text}</div>
                             </div>
                           </Link>{" "}
                         </div>
                       ))}
                     </div>
                     <form
-                      className="flex gap-2 items-center mt-4 border-t border-gray-600 pt-2"
+                      className="flex gap-2 items-center mt-4 border-t border-gray-800 pt-4"
                       onSubmit={handleCommentSubmit}
                     >
                       <textarea
-                        className="textarea w-full p-1 rounded text-md resize-none border focus:outline-none  border-gray-800"
+                        className="textarea w-full p-2 rounded-xl text-md resize-none border focus:outline-none border-gray-800 bg-gray-900/50"
                         placeholder="Add a comment..."
+                        rows="1"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                       />
-                      <button className="btn btn-primary rounded-full btn-sm text-white px-4">
+                      <button
+                        type="submit"
+                        className="btn btn-primary rounded-full btn-sm text-white px-4 h-10 border-none"
+                        disabled={commentLoading || !comment.trim()}
+                      >
                         {commentLoading ? (
-                          <span className="loading loading-spinner loading-md"></span>
+                          <span className="loading loading-spinner loading-sm"></span>
                         ) : (
-                          "comment"
+                          "Post"
                         )}
                       </button>
                     </form>
@@ -228,8 +224,9 @@ function PostDetails({ onePost }) {
                 </div>
               </div>
               <div className="like  flex px-5 items-center cursor-pointer group text-gray-500 hover:text-pink-500 transition-colors"
-                onClick={() => {
-                  handleLike(post?._id);
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLike();
                 }}
               >
                 <div className="p-2 rounded-full group-hover:bg-pink-500/10 transition-colors">
@@ -239,9 +236,14 @@ function PostDetails({ onePost }) {
                     <FaRegHeart className="w-4 h-4" />
                   )}
                 </div>
-                <span className={`text-sm ${isLike ? "text-pink-500" : ""}`}>{post?.likes?.length}</span>
+                <span className={`text-sm ${isLike ? "text-pink-500" : ""}`}>{onePost?.likes?.length}</span>
               </div>
-              <div className="bookmark cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors" onClick={handleBookmark}>
+              <div className="bookmark cursor-pointer group text-gray-500 hover:text-blue-500 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleBookmark();
+                }}
+              >
                 <div className="p-2 rounded-full group-hover:bg-blue-500/10 transition-colors">
                   {!isBookmark ? (
                     <FaRegBookmark className="w-4 h-4" />

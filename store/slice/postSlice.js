@@ -43,7 +43,9 @@ const postSlice = createSlice({
             .addCase(createPost.fulfilled, (state, action) => {
                 state.postLoading = false;
                 state.creatPostLoading = false;
-                state.allPostList = action.payload;
+                if (action.payload) {
+                    state.allPostList = [action.payload, ...state.allPostList];
+                }
             })
             .addCase(createPost.rejected, (state, action) => {
                 state.postLoading = false;
@@ -141,55 +143,50 @@ const postSlice = createSlice({
             })
             // delete Post
             .addCase(deletePost.pending, (state) => {
-                state.postLoading = true;
                 state.error = null;
             })
             .addCase(deletePost.fulfilled, (state, action) => {
                 state.postLoading = false;
-                state.allPostList = action.payload;
-                if (state.post && state.post?._id) {
-                    const exists = action.payload.find(p => p?._id === state.post?._id);
-                    if (!exists) {
-                        state.post = null;
-                    }
+                const deletedId = action.payload.id;
+                state.allPostList = state.allPostList.filter(p => p._id !== deletedId);
+                if (state.post && state.post._id === deletedId) {
+                    state.post = null;
                 }
             })
             .addCase(deletePost.rejected, (state, action) => {
                 state.postLoading = false;
                 state.error = action.payload;
             })
-            // comment on  Post
+            // comment on Post
             .addCase(createComment.pending, (state) => {
                 state.commentLoading = true;
                 state.commentError = null;
             })
             .addCase(createComment.fulfilled, (state, action) => {
                 state.commentLoading = false;
-                state.allPostList = action.payload;
-                if (state.post && state.post?._id) {
-                    const updatedPost = action.payload.find(p => p?._id === state.post?._id);
-                    if (updatedPost) {
-                        state.post = updatedPost;
-                    }
+                const updatedPost = action.payload;
+                state.allPostList = state.allPostList.map(p =>
+                    p._id === updatedPost._id ? updatedPost : p
+                );
+                if (state.post && state.post._id === updatedPost._id) {
+                    state.post = updatedPost;
                 }
             })
             .addCase(createComment.rejected, (state, action) => {
                 state.commentLoading = false;
                 state.commentError = action.payload;
             })
-            // like un like on  Post
+            // like un like on Post
             .addCase(likeUnLike.pending, (state) => {
-                state.postLoading = false;
                 state.error = null;
             })
             .addCase(likeUnLike.fulfilled, (state, action) => {
-                state.postLoading = false;
-                state.allPostList = action.payload;
-                if (state.post && state.post?._id) {
-                    const updatedPost = action.payload.find(p => p?._id === state.post?._id);
-                    if (updatedPost) {
-                        state.post = updatedPost;
-                    }
+                const updatedPost = action.payload;
+                state.allPostList = state.allPostList.map(p =>
+                    p._id === updatedPost._id ? updatedPost : p
+                );
+                if (state.post && state.post._id === updatedPost._id) {
+                    state.post = updatedPost;
                 }
             })
             .addCase(likeUnLike.rejected, (state, action) => {
