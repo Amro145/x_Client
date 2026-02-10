@@ -46,7 +46,7 @@ function App() {
             element={userData?.length === 0 ? <Login /> : <Navigate to="/" />}
           />
           <Route
-            path="/notifiction"
+            path="/notification"
             element={
               userData?.length !== 0 ? <Notifiction /> : <Navigate to="/login" />
             }

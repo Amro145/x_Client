@@ -45,7 +45,7 @@ function Suggested() {
                                     <div className="user flex max-w-full  py-2 items-center gap-2">
                                         <div className="avatar">
                                             <div className="w-10 h-10 rounded-full overflow-hidden">
-                                                <img src={user?.profileImg || "/avatar-placeholder.png"} className="w-full h-full object-cover" />
+                                                <img src={user?.profilePic || "/avatar-placeholder.png"} className="w-full h-full object-cover" />
                                             </div>
                                         </div>
                                         <div className="text grid">

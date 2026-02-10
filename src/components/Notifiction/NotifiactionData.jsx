@@ -73,7 +73,7 @@ function NotifiactionData({ notifiction }) {
               <div className="avatar">
                 <div className="w-8 rounded-full">
                   <img
-                    src={notifiction?.from?.profileImg || "/avatar-placeholder.png"}
+                    src={notifiction?.from?.profilePic || "/avatar-placeholder.png"}
                   />
                 </div>
               </div>

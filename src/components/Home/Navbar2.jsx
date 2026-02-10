@@ -20,7 +20,7 @@ function Navbar2() {
             <MdHomeFilled size={25} />
           </li>
         </Link>
-        <Link to="/notifiction" className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
+        <Link to="/notification" className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
           <li>
             <IoNotifications size={25} />
           </li>

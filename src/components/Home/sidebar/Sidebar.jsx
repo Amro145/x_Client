@@ -44,7 +44,7 @@ function Sidbar() {
                   <span className="font-bold text-xl hidden xl:block">Home</span>
                 </li>
               </Link>
-              <Link to={`/notifiction`}>
+              <Link to={`/notification`}>
                 <li className="notfiction relative flex items-center gap-4 px-4 py-3 hover:bg-gray-900 cursor-pointer duration-200 rounded-full w-fit">
                   <IoNotifications className="w-7 h-7" />
                   <div className="font-bold text-xl hidden xl:block">Notifications</div>
@@ -68,12 +68,12 @@ function Sidbar() {
               <Link
                 to={`/profile/${userData?._id}`}
                 className="info flex items-center gap-3 hover:bg-gray-900 p-3 rounded-full transition-colors duration-200 w-full"
-          
+
               >
                 <div className="avatar hidden md:inline-flex">
                   <div className="w-10 h-10 rounded-full overflow-hidden">
                     <img
-                      src={userData?.profileImg || "/avatar-placeholder.png"}
+                      src={userData?.profilePic || "/avatar-placeholder.png"}
                       className="w-full h-full object-cover"
                     />
                   </div>
