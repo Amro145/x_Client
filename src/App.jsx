@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "../store/api/authApi";
 import Suggested from "./components/Home/Rightpar/Suggested";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./components/Layout";
 
 function App() {
   const { userData, checkLoading } = useSelector((state) => state.auth);
@@ -39,7 +40,9 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <Home />
+              <Layout>
+                <Home />
+              </Layout>
             </ProtectedRoute>
           }
         />
@@ -55,7 +58,9 @@ function App() {
           path="/notification"
           element={
             <ProtectedRoute>
-              <Notification />
+              <Layout>
+                <Notification />
+              </Layout>
             </ProtectedRoute>
           }
         />
@@ -63,7 +68,9 @@ function App() {
           path="/profile/:id"
           element={
             <ProtectedRoute>
-              <Profile />
+              <Layout>
+                <Profile />
+              </Layout>
             </ProtectedRoute>
           }
         />
@@ -71,7 +78,9 @@ function App() {
           path="/suggested"
           element={
             <ProtectedRoute>
-              <Suggested />
+              <Layout>
+                <Suggested />
+              </Layout>
             </ProtectedRoute>
           }
         />
@@ -79,7 +88,9 @@ function App() {
           path="/profile/followers/:id"
           element={
             <ProtectedRoute>
-              <Followers />
+              <Layout>
+                <Followers />
+              </Layout>
             </ProtectedRoute>
           }
         />
@@ -87,7 +98,9 @@ function App() {
           path="/profile/following/:id"
           element={
             <ProtectedRoute>
-              <Following />
+              <Layout>
+                <Following />
+              </Layout>
             </ProtectedRoute>
           }
         />
@@ -95,7 +108,9 @@ function App() {
           path="/post/:id"
           element={
             <ProtectedRoute>
-              <PostPage />
+              <Layout>
+                <PostPage />
+              </Layout>
             </ProtectedRoute>
           }
         />

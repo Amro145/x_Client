@@ -24,44 +24,44 @@ function Suggested() {
     };
 
     return (
-        <div className="block  max-w-screen w-screen-[calc(100%-300px)]  overflow-x-hidden h-screen">
-            <Link to="/" className="cursor-pointer hover:bg-gray-900/50 transition duration-200 px-4 w-full flex justify-start items-center relative bg-gray-800 py-5">
-                Home
-            </Link>
-            <div className="">
-                <h2 className="text-xl font-bold mb-4 px-2">Who to follow</h2>
+        <div className="w-full min-h-screen">
+            <div className="header flex items-center gap-6 px-4 py-3 sticky top-0 bg-black/80 backdrop-blur-md z-10 border-b border-gray-800">
+                <Link to="/" className="hover:bg-gray-900 rounded-full p-2 transition-colors">
+                    <BiSolidLeftArrowCircle size={24} className="text-white" />
+                </Link>
+                <h1 className="text-xl font-bold text-white">Who to follow</h1>
+            </div>
+
+            <div className="p-4">
                 {suggestedLoading ? (
                     <RightBarSkeleton />
                 ) : suggestedUserList?.length !== 0 ? (
-                    suggestedUserList?.map((user) => {
-                        return (
-                            <div className="flex max-w-screen  justify-between items-center pr-20  " key={user?._id}>
+                    <div className="flex flex-col gap-4">
+                        {suggestedUserList?.map((user) => (
+                            <div className="flex justify-between items-center" key={user?._id}>
                                 <Link
                                     to={`/profile/${user?._id}`}
-                                    onClick={() => {
-                                        handleProfileClick(user?._id);
-                                    }}
+                                    onClick={() => handleProfileClick(user?._id)}
+                                    className="flex items-center gap-3 flex-1"
                                 >
-                                    <div className="user flex max-w-full  py-2 items-center gap-2">
-                                        <div className="avatar">
-                                            <div className="w-10 h-10 rounded-full overflow-hidden">
-                                                <img src={user?.profilePic || "/avatar-placeholder.png"} className="w-full h-full object-cover" />
-                                            </div>
+                                    <div className="avatar">
+                                        <div className="w-12 h-12 rounded-full overflow-hidden border border-gray-800">
+                                            <img src={user?.profilePic || "/avatar-placeholder.png"} className="w-full h-full object-cover" />
                                         </div>
-                                        <div className="text grid">
-                                            <span className="hover:underline">{user?.userName}</span>
-                                            <span className="text-gray-500 text-sm">
-                                                @{user?.userName}
-                                            </span>
-                                        </div>
+                                    </div>
+                                    <div className="text flex flex-col">
+                                        <span className="font-bold hover:underline text-white">{user?.userName}</span>
+                                        <span className="text-gray-500 text-sm">
+                                            @{user?.userName}
+                                        </span>
                                     </div>
                                 </Link>
                                 <FollowUnfollow id={user?._id} status={false} />
                             </div>
-                        );
-                    })
+                        ))}
+                    </div>
                 ) : (
-                    <div></div>
+                    <p className="text-center text-gray-500 mt-10">No suggestions available</p>
                 )}
             </div>
         </div>

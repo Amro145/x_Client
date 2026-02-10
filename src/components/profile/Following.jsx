@@ -3,41 +3,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFollowing } from "../../../store/api/authApi";
 import { useParams } from "react-router-dom";
 import FollowData from "./FollowData";
-import { FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { BiSolidLeftArrowCircle } from "react-icons/bi";
 
 function Following() {
-  const { followingList, getFollowLoading } = useSelector(
-    (state) => state.auth
-  );
-  console.log(followingList?.myFollowing)
+  const { followingList, getFollowLoading } = useSelector((state) => state.auth);
   const params = useParams();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getFollowing(params.id));
-  }, [dispatch, params.id]); // Added dispatch to dependency array
+  }, [dispatch, params.id]);
 
   return (
-    <div>
+    <div className="w-full min-h-screen">
+      <div className="header flex items-center gap-6 px-4 py-3 sticky top-0 bg-black/80 backdrop-blur-md z-10 border-b border-gray-800">
+        <Link to={`/profile/${params.id}`} className="hover:bg-gray-900 rounded-full p-2 transition-colors">
+          <BiSolidLeftArrowCircle size={24} className="text-white" />
+        </Link>
+        <h1 className="text-xl font-bold text-white">Following</h1>
+      </div>
+
       {getFollowLoading ? (
-        <p>Loading...</p> // Consider a better loading indicator
-      ) : followingList === undefined || followingList?.length === 0 ? (
-        <p className="text-center text-gray-500">No Following</p>
+        <div className="flex justify-center py-10">
+          <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+      ) : followingList === undefined || (followingList?.myFollowing?.length === 0 && followingList?.length === 0) ? (
+        <p className="text-center text-gray-500 mt-20 text-xl font-bold">No Following yet 👻</p>
       ) : (
-        <div>
-          <Link to="/" className="flex items-center gap-2 py-2">
-            <FaArrowLeft className="w-5 h-5 text-gray-700" />
-            <div className="info grid">
-              <span className="font-bold text-2xl">Home</span>
-            </div>
-          </Link>
-          {followingList?.length !== 0 ? (
+        <div className="py-2">
+          {followingList?.myFollowing?.length > 0 ? (
             followingList?.myFollowing?.map((user) => (
               <FollowData user={user} key={user?._id} />
             ))
           ) : (
-            <p className="text-center text-gray-500 h-54 flex justify-center items-center text-3xl">
-              No Followingingerer
+            <p className="text-center text-gray-500 mt-20 text-xl font-bold">
+              No Following yet 👻
             </p>
           )}
         </div>

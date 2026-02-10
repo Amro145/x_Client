@@ -3,35 +3,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFollowers } from "../../../store/api/authApi";
 import { Link, useParams } from "react-router-dom";
 import FollowData from "./FollowData";
-import { FaArrowLeft } from "react-icons/fa";
+import { BiSolidLeftArrowCircle } from "react-icons/bi";
 
 function Followers() {
   const { followersList, getFollowLoading } = useSelector((state) => state.auth);
-  console.log(followersList);
-  if (!getFollowLoading) {
-    console.log(followersList);
-  }
   const params = useParams();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getFollowers(params.id));
-  }, [dispatch, params.id]); // Added dispatch to dependency array
+  }, [dispatch, params.id]);
+
   return (
-    <div>
+    <div className="w-full min-h-screen">
+      <div className="header flex items-center gap-6 px-4 py-3 sticky top-0 bg-black/80 backdrop-blur-md z-10 border-b border-gray-800">
+        <Link to={`/profile/${params.id}`} className="hover:bg-gray-900 rounded-full p-2 transition-colors">
+          <BiSolidLeftArrowCircle size={24} className="text-white" />
+        </Link>
+        <h1 className="text-xl font-bold text-white">Followers</h1>
+      </div>
+
       {getFollowLoading ? (
-        <p>Loading...</p> // Consider a better loading indicator
-      ) : followersList === undefined || followersList?.length === 0 ? (
-        <p className="text-center text-gray-500 h-54 flex justify-center items-center text-3xl">
-          No Followers
+        <div className="flex justify-center py-10">
+          <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+      ) : followersList?.length === 0 ? (
+        <p className="text-center text-gray-500 mt-20 text-xl font-bold">
+          No Followers yet 👻
         </p>
       ) : (
-        <div>
-          <Link to="/" className="flex items-center gap-2 py-2">
-            <FaArrowLeft className="w-5 h-5 text-gray-700" />
-            <div className="info grid">
-              <span className="font-bold text-2xl">Home</span>
-            </div>
-          </Link>
+        <div className="py-2">
           {followersList?.map((user) => (
             <FollowData user={user} key={user?._id} />
           ))}
