@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost } from "../../store (3)/api/postApi";
+import { getPost } from "../../store/api/postApi";
 import PostDetails from "./Home/post/PostDetails";
 import { BiSolidLeftArrowCircle } from "react-icons/bi";
 

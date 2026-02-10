@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { logout } from "../../../store (3)/api/authApi";
+import { logout } from "../../../store/api/authApi";
 import { MdGroupAdd } from "react-icons/md";
 
 function Navbar2() {

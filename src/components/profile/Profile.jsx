@@ -7,10 +7,10 @@ import { MdEdit } from "react-icons/md";
 import PostDetails from "../Home/post/PostDetails";
 import EditProfile from "./EditProfile";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../../../store (3)/api/postApi";
-import { editProfile, ProfileFn } from "../../../store (3)/api/userApi";
+import { getAllPosts } from "../../../store/api/postApi";
+import { editProfile, ProfileFn } from "../../../store/api/userApi";
 import { timeSince } from "../../../lib/date";
-import { getFollowers, getFollowing } from "../../../store (3)/api/authApi";
+import { getFollowers, getFollowing } from "../../../store/api/authApi";
 import RightBarButton from "../Home/Rightpar/RightBarButton";
 import FollowUnfollow from "./FollowUnfollow";
 

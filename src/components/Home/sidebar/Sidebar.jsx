@@ -5,9 +5,9 @@ import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { ProfileFn } from "../../../../store (3)/api/userApi";
-import { logout } from "../../../../store (3)/api/authApi";
-import { notification } from "../../../../store (3)/api/notificationApi";
+import { ProfileFn } from "../../../../store/api/userApi";
+import { logout } from "../../../../store/api/authApi";
+import { notification } from "../../../../store/api/notificationApi";
 function Sidbar() {
   const { userData } = useSelector((state) => state.auth);
   const { notificationList } = useSelector((state) => state.notification);

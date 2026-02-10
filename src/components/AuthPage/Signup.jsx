@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../../../store (3)/api/authApi";
+import { signup } from "../../../store/api/authApi";
 import Swal from "sweetalert2";
 
 function Signup() {

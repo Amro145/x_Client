@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import {
     ProfileFn,
     suggestedUser,
-} from "../../../../store (3)/api/userApi";
-import { getUserPosts } from "../../../../store (3)/api/postApi";
+} from "../../../../store/api/userApi";
+import { getUserPosts } from "../../../../store/api/postApi";
 import RightBarSkeleton from "../../skeleton/RightBarSkeleton";
 import RightBarButton from "./RightBarButton";
 import FollowUnfollow from "../../profile/FollowUnfollow";

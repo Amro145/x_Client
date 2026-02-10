@@ -8,14 +8,30 @@ const initialState = {
     likedPostsList: [],
     post: [],
     postLoading: false,
+    loadingMore: false,
     creatPostLoading: false,
     commentLoading: false,
     error: null,
     commentError: null,
+    pagination: {
+        currentPage: 1,
+        totalPages: 1,
+        totalPosts: 0
+    }
 }
 const postSlice = createSlice({
     name: "cart",
     initialState,
+    reducers: {
+        resetPosts: (state) => {
+            state.allPostList = [];
+            state.pagination = {
+                currentPage: 1,
+                totalPages: 1,
+                totalPosts: 0
+            };
+        }
+    },
     extraReducers: (builder) => {
         builder
             // allpost
@@ -35,16 +51,40 @@ const postSlice = createSlice({
                 state.error = action.payload || action.error.message;
             })
             // getAllPosts
-            .addCase(getAllPosts.pending, (state) => {
-                state.postLoading = true;
+            .addCase(getAllPosts.pending, (state, action) => {
+                const isInitial = action.meta.arg?.page === 1 || !action.meta.arg?.page;
+                if (isInitial) {
+                    state.postLoading = true;
+                } else {
+                    state.loadingMore = true;
+                }
                 state.error = null;
             })
             .addCase(getAllPosts.fulfilled, (state, action) => {
                 state.postLoading = false;
-                state.allPostList = action.payload;
+                state.loadingMore = false;
+
+                const newPosts = action.payload.posts || [];
+                const currentPage = action.payload.currentPage;
+
+                if (currentPage === 1) {
+                    state.allPostList = newPosts;
+                } else {
+                    // Filter duplicates before appending
+                    const existingIds = new Set(state.allPostList.map(post => post._id));
+                    const uniqueNewPosts = newPosts.filter(post => !existingIds.has(post._id));
+                    state.allPostList = [...state.allPostList, ...uniqueNewPosts];
+                }
+
+                state.pagination = {
+                    currentPage: action.payload.currentPage,
+                    totalPages: action.payload.totalPages,
+                    totalPosts: action.payload.totalPosts
+                };
             })
             .addCase(getAllPosts.rejected, (state, action) => {
                 state.postLoading = false;
+                state.loadingMore = false;
                 state.error = action.error.message;
             })
             // one post
@@ -160,4 +200,5 @@ const postSlice = createSlice({
 
     }
 })
+export const { resetPosts } = postSlice.actions;
 export default postSlice.reducer

@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteOneNotifications } from "../../../store (3)/api/notificationApi";
+import { deleteOneNotifications } from "../../../store/api/notificationApi";
 import { useDispatch } from "react-redux";
 import { FaTrash, FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";

@@ -10,7 +10,7 @@ import {
   createComment,
   deletePost,
   likeUnLike,
-} from "../../../../store (3)/api/postApi";
+} from "../../../../store/api/postApi";
 import { timeSince } from "../../../../lib/date";
 import Swal from "sweetalert2";
 

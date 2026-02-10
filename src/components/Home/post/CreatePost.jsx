@@ -3,7 +3,7 @@ import { BsEmojiSmileFill } from "react-icons/bs";
 import { useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../../../store (3)/api/postApi";
+import { createPost } from "../../../../store/api/postApi";
 
 const CreatePost = () => {
   const [text, setText] = useState("");

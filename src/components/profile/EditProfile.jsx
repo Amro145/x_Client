@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editPassword, editProfile } from "../../../store (3)/api/userApi";
+import { editPassword, editProfile } from "../../../store/api/userApi";
 import { useNavigate } from "react-router-dom";
 
 function EditProfile() {

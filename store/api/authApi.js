@@ -2,15 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../src/lib/axios"
 import Swal from "sweetalert2";
 
-export const signup = createAsyncThunk("auth/singup", async (data, { rejectWithValue }) => {
+export const signup = createAsyncThunk("auth/signup", async (data, { rejectWithValue }) => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, data, { withCredentials: true })
-        Swal.fire({
-            title: "Hello 🤩",
-            icon: "success",
-            timer: 1000,
-            showConfirmButton: false,
-        });
         return res.data
     } catch (error) {
         const message = error.response?.data?.message || "Signup failed";
@@ -20,12 +14,6 @@ export const signup = createAsyncThunk("auth/singup", async (data, { rejectWithV
 export const login = createAsyncThunk("auth/login", async (data, { rejectWithValue }) => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, data, { withCredentials: true })
-        Swal.fire({
-            title: "Login Succuful",
-            icon: "success",
-            timer: 1000,
-            showConfirmButton: false,
-        });
         return res.data
     } catch (error) {
         const message = error.response?.data?.message || "Login failed";

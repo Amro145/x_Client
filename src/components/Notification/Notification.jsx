@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteNotifications,
   notification,
-} from "../../../store (3)/api/notificationApi";
+} from "../../../store/api/notificationApi";
 import NotifiactionData from "./NotifiactionData";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { BiSolidLeftArrowCircle } from "react-icons/bi";
 import { IoSettingsOutline } from "react-icons/io5";
-function Notifiction() {
+function Notification() {
   const { notificationList, notificationLoading } = useSelector(
     (state) => state.notification
   );
@@ -74,7 +74,7 @@ function Notifiction() {
         </div>
         {!notificationLoading && notificationList?.length === 0 && (
           <p className=" flex  justify-center mt-10 font-bold">
-            No Notifiction
+            No Notification
           </p>
         )}
         {notificationList?.length > 0 &&
@@ -90,4 +90,4 @@ function Notifiction() {
   );
 }
 
-export default Notifiction;
+export default Notification;

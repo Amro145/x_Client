@@ -10,12 +10,12 @@ const showNotification = (title, icon) => {
     });
 };
 
-export const getAllPosts = createAsyncThunk("post/getAllPosts", async (_, { rejectWithValue }) => {
+export const getAllPosts = createAsyncThunk("post/getAllPosts", async ({ page = 1, limit = 10 } = {}, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/all`, { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/all?page=${page}&limit=${limit}`, { withCredentials: true })
         return res.data
     } catch (error) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response?.data?.message || "Failed to fetch posts")
     }
 })
 export const getPost = createAsyncThunk("post/getPost", async (id, { rejectWithValue }) => {

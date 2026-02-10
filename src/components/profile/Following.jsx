@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFollowing } from "../../../store (3)/api/authApi";
+import { getFollowing } from "../../../store/api/authApi";
 import { useParams } from "react-router-dom";
 import FollowData from "./FollowData";
 import { FaArrowLeft } from "react-icons/fa";

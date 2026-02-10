@@ -13,18 +13,12 @@ export const setupAxiosInterceptors = (dispatch, logoutAction) => {
             return response;
         },
         (error) => {
-            if (error.response && error.response.status === 500) {
-                // Redirect to the server error page
-                window.location.href = '/server-error';
-            }
             if (error.response && error.response.status === 401) {
-                // Redirect to the server error page
                 // logout
                 if (dispatch && logoutAction) {
                     dispatch(logoutAction());
                 }
                 localStorage.removeItem('userData');
-                localStorage.removeItem('token');
                 window.location.href = '/login';
             }
             return Promise.reject(error);

@@ -3,7 +3,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../../store (3)/api/authApi";
+import { login } from "../../../store/api/authApi";
 import Swal from "sweetalert2";
 
 function Login() {
