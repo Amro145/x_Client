@@ -24,9 +24,17 @@ function Login() {
   };
 
   const validateForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!cleanData.email || !cleanData.email.trim()) {
       Swal.fire({
         text: "Email is Required!",
+        timer: 1500,
+        icon: "error"
+      });
+      return false;
+    } else if (!emailRegex.test(cleanData.email.trim())) {
+      Swal.fire({
+        text: "Invalid Email Format!",
         timer: 1500,
         icon: "error"
       });

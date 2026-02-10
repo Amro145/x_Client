@@ -29,11 +29,16 @@ function EditProfile() {
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
+    if (!formData.userName.trim() || !formData.email.trim()) {
+      Swal.fire({ text: "Username and Email are required!", icon: "error", timer: 1500 });
+      return;
+    }
+
     const cleanData = {
-      userName: formData.userName.toString(),
-      email: formData.email.toString(),
-      bio: formData.bio.toString(),
-      link: formData.link.toString(),
+      userName: formData.userName.trim(),
+      email: formData.email.trim(),
+      bio: formData.bio.trim(),
+      link: formData.link.trim(),
     };
 
     const resultAction = await dispatch(editProfile(cleanData));
@@ -44,6 +49,15 @@ function EditProfile() {
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
+    if (!formData.oldPassword || !formData.password) {
+      Swal.fire({ text: "Both current and new passwords are required!", icon: "error", timer: 1500 });
+      return;
+    }
+    if (formData.password.length < 6) {
+      Swal.fire({ text: "New password must be at least 6 characters!", icon: "error", timer: 1500 });
+      return;
+    }
+
     const PasswordData = {
       password: formData.password,
       oldPassword: formData.oldPassword,
