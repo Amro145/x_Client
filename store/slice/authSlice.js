@@ -64,9 +64,14 @@ const authSlice = createSlice({
             })
             .addCase(followUnFollow.fulfilled, (state, action) => {
                 state.followLoading = false;
-                state.followStatus = action.payload.message;
-                state.myProfile = action.payload.followUser;
-                state.userData = action.payload.myaccount;
+                state.followStatus = action.payload.isFollowing ? "followed" : "unfollowed";
+                state.userData = action.payload.myAccount;
+                localStorage.setItem("userData", JSON.stringify(action.payload.myAccount));
+
+                // If the user we just followed/unfollowed is the one on the current profile page, update it
+                if (state.myProfile && state.myProfile?._id === action.payload.followedUser?._id) {
+                    state.myProfile = action.payload.followedUser;
+                }
             })
             .addCase(followUnFollow.rejected, (state, action) => {
                 state.followLoading = false;

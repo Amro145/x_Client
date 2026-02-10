@@ -26,28 +26,28 @@ export const getPost = createAsyncThunk("post/getPost", async (id, { rejectWithV
         return rejectWithValue(error.response?.data?.message || error.message)
     }
 })
-export const getLikedPosts = createAsyncThunk("post/getLikedPosts", async (_, { rejectWithValue }) => {
+export const getLikedPosts = createAsyncThunk("post/getLikedPosts", async ({ page = 1, limit = 10 } = {}, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/liked`, { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/liked?page=${page}&limit=${limit}`, { withCredentials: true })
         return res.data
     } catch (error) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response?.data?.message || "Failed to fetch liked posts")
     }
 })
-export const getFollowingPosts = createAsyncThunk("post/getFollowingPosts", async (_, { rejectWithValue }) => {
+export const getFollowingPosts = createAsyncThunk("post/getFollowingPosts", async ({ page = 1, limit = 10 } = {}, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/following`, { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/following?page=${page}&limit=${limit}`, { withCredentials: true })
         return res.data
     } catch (error) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response?.data?.message || "Failed to fetch following posts")
     }
 })
-export const getUserPosts = createAsyncThunk("post/getUserPosts", async (id, { rejectWithValue }) => {
+export const getUserPosts = createAsyncThunk("post/getUserPosts", async ({ id, page = 1, limit = 10 }, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/user/${id}`, { withCredentials: true })
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/post/user/${id}?page=${page}&limit=${limit}`, { withCredentials: true })
         return res.data
     } catch (error) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response?.data?.message || "Failed to fetch user posts")
     }
 })
 export const createPost = createAsyncThunk("post/createPost", async (data, { rejectWithValue }) => {

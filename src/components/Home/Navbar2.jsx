@@ -1,50 +1,47 @@
-import React from "react";
-import { MdHomeFilled } from "react-icons/md";
-import { IoNotifications } from "react-icons/io5";
-import { FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { BiLogOut } from "react-icons/bi";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { logout } from "../../../store/api/authApi";
-import { MdGroupAdd } from "react-icons/md";
+import { getAllPosts, getFollowingPosts } from "../../../store/api/postApi";
+import { resetPosts } from "../../../store/slice/postSlice";
 
 function Navbar2() {
-  const { userData } = useSelector((state) => state.auth);
+  const [feedType, setFeedType] = useState("forYou");
   const dispatch = useDispatch();
+
+  const handleTabChange = (type) => {
+    setFeedType(type);
+    dispatch(resetPosts());
+    if (type === "forYou") {
+      dispatch(getAllPosts({ page: 1, limit: 10 }));
+    } else {
+      dispatch(getFollowingPosts({ page: 1, limit: 10 }));
+    }
+  };
+
   return (
-    <div className="block border-b border-gray-100 w-full">
-      <ul className="flex justify-between w-full">
-        <Link to="/" className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
-          <li>
-            <MdHomeFilled size={25} />
-          </li>
-        </Link>
-        <Link to="/notification" className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
-          <li>
-            <IoNotifications size={25} />
-          </li>
-
-        </Link>
-        <Link to={`/profile/${userData?._id}`} className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
-          <li>
-            <FaUser size={25} />
-          </li>
-        </Link>
-        <Link to="/suggested" className="hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
-          <li>
-            <MdGroupAdd size={25} />
-          </li>
-        </Link>
-        <div onClick={() => dispatch(logout())} className="cursor-pointer hover:bg-gray-100/30 py-5 px-5  rounded-full flex justify-center items-center ">
-          <li>
-            <BiLogOut size={25} />
-          </li>
-        </div>
-
-
-      </ul >
-    </div >
+    <div className="flex w-full border-b border-gray-800 sticky top-0 bg-black/80 backdrop-blur-md z-10">
+      <div
+        className="flex-1 flex justify-center p-4 hover:bg-gray-900 transition duration-300 cursor-pointer relative"
+        onClick={() => handleTabChange("forYou")}
+      >
+        <span className={`font-bold ${feedType === "forYou" ? "text-white" : "text-gray-500"}`}>
+          For you
+        </span>
+        {feedType === "forYou" && (
+          <div className="absolute bottom-0 w-16 h-1 rounded-full bg-blue-500"></div>
+        )}
+      </div>
+      <div
+        className="flex-1 flex justify-center p-4 hover:bg-gray-900 transition duration-300 cursor-pointer relative"
+        onClick={() => handleTabChange("following")}
+      >
+        <span className={`font-bold ${feedType === "following" ? "text-white" : "text-gray-500"}`}>
+          Following
+        </span>
+        {feedType === "following" && (
+          <div className="absolute bottom-0 w-16 h-1 rounded-full bg-blue-500"></div>
+        )}
+      </div>
+    </div>
   );
 }
 

@@ -22,6 +22,16 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
+  if (checkLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-black">
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  const isAuth = userData && !Array.isArray(userData) && userData._id;
+
   return (
     <BrowserRouter>
       <Routes>
@@ -35,11 +45,11 @@ function App() {
         />
         <Route
           path="/signup"
-          element={!userData || userData.length === 0 ? <Signup /> : <Navigate to="/" />}
+          element={!isAuth ? <Signup /> : <Navigate to="/" />}
         />
         <Route
           path="/login"
-          element={!userData || userData.length === 0 ? <Login /> : <Navigate to="/" />}
+          element={!isAuth ? <Login /> : <Navigate to="/" />}
         />
         <Route
           path="/notification"
@@ -89,7 +99,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/server-error" element={<ServerError />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );

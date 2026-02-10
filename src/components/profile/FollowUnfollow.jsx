@@ -1,46 +1,42 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { followUnFollow } from "../../../store/api/userApi";
 
-function FollowUnfollow({ id, status }) {
-  const { userData, loading } = useSelector(
-    (state) => state.auth
-  );
+function FollowUnfollow({ id }) {
+  const { userData, followLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const [isFollow, setIsFollow] = useState(status);
-  const [followLoading, setFollowLoading] = useState(false)
+  const isFollowing = userData?.following?.includes(id);
 
-  const handleFollowUnfollow = async (userId) => {
-    try {
-      setFollowLoading(true)
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/follow/${id}`, {}, { withCredentials: true })
-      console.log(res.data?.isFollowing)
-      setIsFollow(res.data?.isFollowing)
-      setFollowLoading(false)
-    } catch (error) {
-      console.log(error)
+  const handleFollowUnfollow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(followUnFollow(id));
+  };
 
-    }
-
-  }
-
+  if (!userData || userData._id === id) return null;
 
   return (
     <button
-      className="btn outline bg-transparent hover:bg-white hover:opacity-90 rounded  px-5 relative left-10 mt-5 mb-10 "
-      onClick={(e) => {
-        e.preventDefault();
-        handleFollowUnfollow(id);
-      }}
-
+      className={`btn btn-sm rounded-full px-6 transition-all duration-200 border-none font-bold ${isFollowing
+          ? "bg-transparent border border-gray-600 text-white hover:border-red-500 hover:text-red-500 hover:bg-red-500/10"
+          : "bg-white text-black hover:bg-gray-200"
+        }`}
+      onClick={handleFollowUnfollow}
+      disabled={followLoading}
     >
-      {followLoading || loading
-        ? "loading"
-        : userData && isFollow !== null &&
-        (isFollow ? "unFollow" : "Follow")}
+      {followLoading ? (
+        <span className="loading loading-spinner loading-xs"></span>
+      ) : isFollowing ? (
+        <span className="group">
+          <span className="group-hover:hidden">Following</span>
+          <span className="hidden group-hover:inline">Unfollow</span>
+        </span>
+      ) : (
+        "Follow"
+      )}
     </button>
   );
-
-};
+}
 
 export default FollowUnfollow;
