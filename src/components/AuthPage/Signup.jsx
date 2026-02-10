@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../../store/api/authApi";
+import { resetErrors } from "../../../store/slice/authSlice";
 import Swal from "sweetalert2";
 
 function Signup() {
@@ -13,54 +14,50 @@ function Signup() {
     password: "",
     email: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
+
+  const { loading, signupError } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetErrors());
+  }, [dispatch]);
 
   const cleanData = {
     userName: formData.userName,
     email: formData.email,
     password: formData.password,
   };
-  const { loading, signupError } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
 
   const validateForm = () => {
     if (!cleanData.email || !cleanData.email.trim()) {
-      Swal.fire({
-        text: "Email is Required!",
-        timer: 1500,
-      });
+      Swal.fire({ text: "Email is Required!", timer: 1500, icon: "error" });
+      return false;
     } else if (!cleanData.userName || !cleanData.userName.trim()) {
-      Swal.fire({
-        text: "useName is Required!",
-        autoClose: true,
-        timer: 1500,
-      });
+      Swal.fire({ text: "Username is Required!", timer: 1500, icon: "error" });
+      return false;
     } else if (!cleanData.password) {
-      Swal.fire({
-        text: " Password is Required!",
-        timer: 1500,
-      });
+      Swal.fire({ text: "Password is Required!", timer: 1500, icon: "error" });
+      return false;
     } else if (cleanData.password.length < 6) {
-      Swal.fire({
-        text: "Password must be at least 6 characters long!",
-        timer: 1500,
-      });
+      Swal.fire({ text: "Password must be at least 6 characters long!", timer: 1500, icon: "error" });
+      return false;
     } else {
       return true;
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const success = validateForm();
-    if (success === true) {
+    if (validateForm() === true) {
       dispatch(signup(cleanData));
-    } else {
-      setErrorMessage(signupError);
     }
   };
+
   const handleOnChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (signupError) dispatch(resetErrors());
   };
+
   return (
     <div className="flex flex-col justify-center items-center md:grid md:grid-cols-12 md:gap-4 w-full h-screen overflow-hidden bg-black text-white">
       {loading ? (
@@ -69,7 +66,7 @@ function Signup() {
         </div>
       ) : (
         <>
-          <div className="col-span-7 flex justify-center items-center h-full">
+          <div className="col-span-12 md:col-span-7 flex justify-center items-center h-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -87,14 +84,12 @@ function Signup() {
               Join today.
             </div>
 
-            <form className="grid gap-4 w-full md:w-[300px]">
-              {(errorMessage && formData.email !== "") ||
-                formData.password !== "" ||
-                (formData.userName !== "" && (
-                  <div className="text-red-500 mb-4 font-medium bg-red-500/10 p-3 rounded-lg border border-red-500/20">
-                    {signupError}
-                  </div>
-                ))}
+            <form className="grid gap-4 w-full md:w-[300px]" onSubmit={handleSubmit}>
+              {signupError && (
+                <div className="text-red-500 mb-4 font-medium bg-red-500/10 p-3 rounded-lg border border-red-500/20 text-sm animate-pulse">
+                  {signupError}
+                </div>
+              )}
               <label className="input input-bordered rounded-full flex items-center gap-2 bg-black border border-gray-700 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all duration-200">
                 <MdOutlineMail className="text-gray-500" />
                 <input
@@ -130,8 +125,8 @@ function Signup() {
               </label>
 
               <button
+                type="submit"
                 className="btn rounded-full bg-white text-black hover:bg-gray-200 border-none font-bold text-lg w-full mt-2 transition-colors duration-200"
-                onClick={handleSubmit}
               >
                 Sign up
               </button>

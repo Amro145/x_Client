@@ -11,6 +11,7 @@ import {
   deletePost,
   likeUnLike,
 } from "../../../../store/api/postApi";
+import { resetErrors } from "../../../../store/slice/postSlice";
 import { timeSince } from "../../../../lib/date";
 import Swal from "sweetalert2";
 
@@ -26,6 +27,18 @@ function PostDetails({ onePost }) {
   } = useSelector((state) => state.post);
   const { userData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (commentError) {
+      const timer = setTimeout(() => dispatch(resetErrors()), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [commentError, dispatch]);
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+    if (commentError) dispatch(resetErrors());
+  };
 
   const isLike = onePost?.likes?.includes(userData?._id);
 
@@ -155,7 +168,7 @@ function PostDetails({ onePost }) {
                         </p>
                       )}
                       {commentError && (
-                        <div className="text-red-500 ">{commentError}</div>
+                        <div className="text-red-500 mb-2 p-2 bg-red-500/10 border border-red-500/20 rounded-lg text-sm">{commentError}</div>
                       )}
                       {onePost.comment.map((comment) => (
                         <div key={comment?._id}>
@@ -198,7 +211,7 @@ function PostDetails({ onePost }) {
                         placeholder="Add a comment..."
                         rows="1"
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={handleCommentChange}
                       />
                       <button
                         type="submit"

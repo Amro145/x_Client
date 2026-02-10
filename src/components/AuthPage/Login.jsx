@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { MdOutlineMail } from "react-icons/md";
-import { MdPassword } from "react-icons/md";
+import React, { useState, useEffect } from "react";
+import { MdOutlineMail, MdPassword } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../store/api/authApi";
+import { resetErrors } from "../../../store/slice/authSlice";
 import Swal from "sweetalert2";
 
 function Login() {
@@ -14,34 +14,47 @@ function Login() {
     password: "",
   });
 
+  useEffect(() => {
+    dispatch(resetErrors());
+  }, [dispatch]);
+
+  const cleanData = {
+    email: formData.email,
+    password: formData.password,
+  };
+
   const validateForm = () => {
     if (!cleanData.email || !cleanData.email.trim()) {
       Swal.fire({
         text: "Email is Required!",
         timer: 1500,
+        icon: "error"
       });
+      return false;
     } else if (!cleanData.password) {
       Swal.fire({
         text: " Password is Required!",
         timer: 1500,
+        icon: "error"
       });
+      return false;
     } else {
       return true;
     }
   };
-  const cleanData = {
-    email: formData.email,
-    password: formData.password,
-  };
+
   const handleonChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (loginError) dispatch(resetErrors());
   };
-  const handleSubmit = (data) => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (validateForm() === true) {
-      dispatch(login(data));
-      console.log(loginError);
+      dispatch(login(cleanData));
     }
   };
+
   return (
     <div className="flex flex-col justify-center items-center md:grid md:grid-cols-12 md:gap-4 w-full h-screen overflow-hidden bg-black text-white">
       {loading ? (
@@ -50,7 +63,7 @@ function Login() {
         </div>
       ) : (
         <>
-          <div className="col-span-7 flex justify-center items-center h-full">
+          <div className="col-span-12 md:col-span-7 flex justify-center items-center h-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -68,12 +81,13 @@ function Login() {
               Join today.
             </div>
 
-            {(loginError && formData.email !== "") ||
-              (formData.password !== "" && (
-                <div className="text-red-500 mb-4 font-medium bg-red-500/10 p-3 rounded-lg border border-red-500/20">{loginError}</div>
-              ))}
+            {loginError && (
+              <div className="text-red-500 mb-4 font-medium bg-red-500/10 p-3 rounded-lg border border-red-500/20 text-sm animate-pulse">
+                {loginError}
+              </div>
+            )}
 
-            <form className="grid gap-4 w-full md:w-[300px]">
+            <form className="grid gap-4 w-full md:w-[300px]" onSubmit={handleSubmit}>
               <label className="input input-bordered rounded-full flex items-center gap-2 bg-black border border-gray-700 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all duration-200">
                 <MdOutlineMail className="text-gray-500" />
                 <input
@@ -99,11 +113,8 @@ function Login() {
               </label>
 
               <button
+                type="submit"
                 className="btn rounded-full bg-white text-black hover:bg-gray-200 border-none font-bold text-lg w-full mt-2 transition-colors duration-200"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSubmit(cleanData);
-                }}
               >
                 Log in
               </button>

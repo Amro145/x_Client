@@ -27,6 +27,13 @@ const initialState = {
 const authSlice = createSlice({
     name: "user",
     initialState,
+    reducers: {
+        resetErrors: (state) => {
+            state.loginError = null;
+            state.signupError = null;
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
             // profile function
@@ -196,4 +203,5 @@ const authSlice = createSlice({
     }
 })
 
+export const { resetErrors } = authSlice.actions;
 export default authSlice.reducer

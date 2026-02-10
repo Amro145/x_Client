@@ -30,6 +30,10 @@ const postSlice = createSlice({
                 totalPages: 1,
                 totalPosts: 0
             };
+        },
+        resetErrors: (state) => {
+            state.error = null;
+            state.commentError = null;
         }
     },
     extraReducers: (builder) => {
@@ -197,5 +201,5 @@ const postSlice = createSlice({
 
     }
 })
-export const { resetPosts } = postSlice.actions;
+export const { resetPosts, resetErrors } = postSlice.actions;
 export default postSlice.reducer
