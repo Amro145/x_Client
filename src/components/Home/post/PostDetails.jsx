@@ -206,13 +206,21 @@ function PostDetails({ onePost }) {
                       className="flex gap-2 items-center mt-4 border-t border-gray-800 pt-4"
                       onSubmit={handleCommentSubmit}
                     >
-                      <textarea
-                        className="textarea w-full p-2 rounded-xl text-md resize-none border focus:outline-none border-gray-800 bg-gray-900/50"
-                        placeholder="Add a comment..."
-                        rows="1"
-                        value={comment}
-                        onChange={handleCommentChange}
-                      />
+                      <div className="relative w-full">
+                        <textarea
+                          className="textarea w-full p-2 rounded-xl text-md resize-none border focus:outline-none border-gray-800 bg-gray-900/50"
+                          placeholder="Add a comment..."
+                          rows="1"
+                          maxLength={500}
+                          value={comment}
+                          onChange={handleCommentChange}
+                        />
+                        {comment.length > 400 && (
+                          <div className={`absolute bottom-2 right-2 text-[10px] ${comment.length >= 500 ? 'text-red-500 font-bold' : 'text-gray-500'}`}>
+                            {comment.length}/500
+                          </div>
+                        )}
+                      </div>
                       <button
                         type="submit"
                         className="btn btn-primary rounded-full btn-sm text-white px-4 h-10 border-none"

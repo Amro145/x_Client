@@ -102,6 +102,7 @@ function Signup() {
                   placeholder="Email"
                   className="grow text-white placeholder-gray-500"
                   value={formData.email}
+                  maxLength={50}
                   onChange={handleOnChange}
                 />
               </label>
@@ -113,6 +114,7 @@ function Signup() {
                   className="grow text-white placeholder-gray-500"
                   value={formData.userName}
                   name="userName"
+                  maxLength={20}
                   onChange={handleOnChange}
                 />
               </label>
@@ -124,6 +126,7 @@ function Signup() {
                   className="grow text-white placeholder-gray-500"
                   value={formData.password}
                   name="password"
+                  maxLength={50}
                   onChange={handleOnChange}
                 />
               </label>

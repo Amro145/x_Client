@@ -104,6 +104,7 @@ function Login() {
                   placeholder="Email"
                   className="grow text-white placeholder-gray-500"
                   value={formData.email}
+                  maxLength={50}
                   onChange={handleonChange}
                 />
               </label>
@@ -116,6 +117,7 @@ function Login() {
                   className="grow text-white placeholder-gray-500"
                   value={formData.password}
                   name="password"
+                  maxLength={50}
                   onChange={handleonChange}
                 />
               </label>

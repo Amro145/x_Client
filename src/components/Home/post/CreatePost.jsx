@@ -5,6 +5,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../../../store/api/postApi";
 import { resetErrors } from "../../../../store/slice/postSlice";
+import Swal from "sweetalert2";
 
 const CreatePost = () => {
   const [text, setText] = useState("");
@@ -41,6 +42,16 @@ const CreatePost = () => {
   const handleImgChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        Swal.fire({
+          text: "Image size must be less than 5MB!",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        e.target.value = null;
+        return;
+      }
       const reader = new FileReader();
       reader.onload = () => {
         setImg(reader.result);
@@ -60,12 +71,20 @@ const CreatePost = () => {
         className="flex flex-col gap-2 w-full relative"
         onSubmit={handleSubmit}
       >
-        <textarea
-          className="textarea w-full p-2 text-xl resize-none border-none focus:outline-none bg-transparent text-white placeholder-gray-500 min-h-[100px]"
-          placeholder="What is happening?!"
-          value={text}
-          onChange={handleTextChange}
-        />
+        <div className="relative w-full">
+          <textarea
+            className="textarea w-full p-2 text-xl resize-none border-none focus:outline-none bg-transparent text-white placeholder-gray-500 min-h-[100px]"
+            placeholder="What is happening?!"
+            value={text}
+            maxLength={280}
+            onChange={handleTextChange}
+          />
+          {text.length > 0 && (
+            <div className={`absolute bottom-2 right-2 text-xs font-medium ${text.length >= 280 ? 'text-red-500 font-bold' : text.length >= 250 ? 'text-yellow-500' : 'text-gray-500'}`}>
+              {text.length}/280
+            </div>
+          )}
+        </div>
         {img && (
           <div className="relative">
             <IoCloseSharp

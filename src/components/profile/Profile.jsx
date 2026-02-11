@@ -13,6 +13,7 @@ import { timeSince } from "../../../lib/date";
 import { getFollowers, getFollowing } from "../../../store/api/authApi";
 import RightBarButton from "../Home/Rightpar/RightBarButton";
 import FollowUnfollow from "./FollowUnfollow";
+import Swal from "sweetalert2";
 
 function Profile() {
   const { myProfile, profileLoading, error, userData } = useSelector((state) => state.auth);
@@ -32,6 +33,16 @@ function Profile() {
   const handleImgChange = (e, state) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        Swal.fire({
+          text: "Image size must be less than 5MB!",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        e.target.value = null;
+        return;
+      }
       const reader = new FileReader();
       reader.onload = () => {
         if (state === "coverPic") setCoverPic(reader.result);

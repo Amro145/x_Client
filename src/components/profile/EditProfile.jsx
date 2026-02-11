@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editPassword, editProfile } from "../../../store/api/userApi";
 import { resetErrors } from "../../../store/slice/authSlice";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -103,14 +104,20 @@ function EditProfile() {
                 <label className="label">
                   <span className="label-text text-gray-400 font-medium">Username</span>
                 </label>
-                <input
-                  type="text"
-                  name="userName"
-                  className="input input-bordered bg-gray-900 border-gray-700 focus:border-blue-500 focus:outline-none text-white w-full"
-                  value={formData.userName}
-                  onChange={handleInputChange}
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="userName"
+                    className="input input-bordered bg-gray-900 border-gray-700 focus:border-blue-500 focus:outline-none text-white w-full pr-12"
+                    value={formData.userName}
+                    maxLength={20}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+                    {formData.userName.length}/20
+                  </span>
+                </div>
               </div>
               <div className="form-control">
                 <label className="label">
@@ -129,13 +136,19 @@ function EditProfile() {
                 <label className="label">
                   <span className="label-text text-gray-400 font-medium">Bio</span>
                 </label>
-                <textarea
-                  name="bio"
-                  className="textarea textarea-bordered bg-gray-900 border-gray-700 focus:border-blue-500 focus:outline-none text-white w-full h-24 resize-none"
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  placeholder="Tell us about yourself..."
-                />
+                <div className="relative">
+                  <textarea
+                    name="bio"
+                    className="textarea textarea-bordered bg-gray-900 border-gray-700 focus:border-blue-500 focus:outline-none text-white w-full h-24 resize-none"
+                    value={formData.bio}
+                    maxLength={160}
+                    onChange={handleInputChange}
+                    placeholder="Tell us about yourself..."
+                  />
+                  <span className={`absolute bottom-2 right-3 text-xs ${formData.bio.length >= 160 ? 'text-red-500' : 'text-gray-500'}`}>
+                    {formData.bio.length}/160
+                  </span>
+                </div>
               </div>
               <div className="form-control md:col-span-2">
                 <label className="label">
@@ -146,6 +159,7 @@ function EditProfile() {
                   name="link"
                   className="input input-bordered bg-gray-900 border-gray-700 focus:border-blue-500 focus:outline-none text-white w-full"
                   value={formData.link}
+                  maxLength={100}
                   onChange={handleInputChange}
                   placeholder="https://example.com"
                 />
