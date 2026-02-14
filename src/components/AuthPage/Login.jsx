@@ -63,6 +63,14 @@ function Login() {
     }
   };
 
+  const handleGuestLogin = () => {
+    const guestData = {
+      email: "Dianne.Kub92@gmail.com",
+      password: "password123",
+    };
+    dispatch(login(guestData));
+  };
+
   return (
     <div className="flex flex-col justify-center items-center md:grid md:grid-cols-12 md:gap-4 w-full h-screen overflow-hidden bg-black text-white">
       {loading ? (
@@ -127,6 +135,14 @@ function Login() {
                 className="btn rounded-full bg-white text-black hover:bg-gray-200 border-none font-bold text-lg w-full mt-2 transition-colors duration-200"
               >
                 Log in
+              </button>
+
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                className="btn rounded-full bg-blue-500 text-white hover:bg-blue-600 border-none font-bold text-lg w-full mt-2 transition-colors duration-200"
+              >
+                Guest Login
               </button>
             </form>
 
