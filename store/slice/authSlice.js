@@ -121,12 +121,22 @@ const authSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state) => {
                 state.loading = false;
-                state.userData = []
+                state.userData = [];
+                state.myProfile = [];
+                state.followingList = [];
+                state.followersList = [];
+                state.suggestedUserList = [];
                 localStorage.removeItem("userData");
             })
             .addCase(logout.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message
+                state.userData = [];
+                state.myProfile = [];
+                state.followingList = [];
+                state.followersList = [];
+                state.suggestedUserList = [];
+                localStorage.removeItem("userData");
+                state.error = action.error.message;
             })
             //checkAuth
             .addCase(checkAuth.pending, (state) => {
@@ -142,7 +152,10 @@ const authSlice = createSlice({
             .addCase(checkAuth.rejected, (state, action) => {
                 state.loading = false;
                 state.checkLoading = false;
-                state.error = action.error.message
+                state.userData = [];
+                state.myProfile = [];
+                localStorage.removeItem("userData");
+                state.error = action.error.message;
             })
             // edit profile
             .addCase(editProfile.pending, (state) => {
