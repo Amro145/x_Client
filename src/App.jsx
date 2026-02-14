@@ -13,12 +13,16 @@ import { checkAuth } from "../store/api/authApi";
 import Suggested from "./components/Home/Rightpar/Suggested";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import { setupAxiosInterceptors } from "./lib/axios";
+import { logout as logoutAction } from "../store/api/authApi";
 
 function App() {
   const { userData, checkLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Setup axios interceptors to handle 401s
+    setupAxiosInterceptors(dispatch, logoutAction);
     // Check authentication status
     dispatch(checkAuth());
   }, [dispatch]);

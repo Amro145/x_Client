@@ -21,13 +21,21 @@ export const login = createAsyncThunk("auth/login", async (data, { rejectWithVal
 
     }
 })
-export const logout = createAsyncThunk("auth/logout", async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/logout`, { withCredentials: true })
-    return res.data
+export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/logout`, { withCredentials: true })
+        return res.data
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || "Logout failed");
+    }
 })
-export const checkAuth = createAsyncThunk("auth/checkAuth", async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/check`, { withCredentials: true })
-    return res.data
+export const checkAuth = createAsyncThunk("auth/checkAuth", async (_, { rejectWithValue }) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/check`, { withCredentials: true })
+        return res.data
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || "Check auth failed");
+    }
 })
 export const getFollowing = createAsyncThunk("user/following", async (id, { rejectWithValue }) => {
     try {

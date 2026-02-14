@@ -197,6 +197,31 @@ const postSlice = createSlice({
                 state.postLoading = false;
                 state.error = action.payload;
             })
+            // logout
+            .addCase("auth/logout/fulfilled", (state) => {
+                state.allPostList = [];
+                state.userPostsList = [];
+                state.followingPostsList = [];
+                state.likedPostsList = [];
+                state.post = [];
+                state.pagination = {
+                    currentPage: 1,
+                    totalPages: 1,
+                    totalPosts: 0
+                };
+            })
+            .addCase("auth/logout/rejected", (state) => {
+                state.allPostList = [];
+                state.userPostsList = [];
+                state.followingPostsList = [];
+                state.likedPostsList = [];
+                state.post = [];
+                state.pagination = {
+                    currentPage: 1,
+                    totalPages: 1,
+                    totalPosts: 0
+                };
+            })
 
 
     }

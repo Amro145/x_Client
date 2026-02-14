@@ -49,6 +49,13 @@ const notificationSlice = createSlice({
                 state.notificationLoading = false;
                 state.error = action.error.message;
             })
+            // logout
+            .addCase("auth/logout/fulfilled", (state) => {
+                state.notificationList = [];
+            })
+            .addCase("auth/logout/rejected", (state) => {
+                state.notificationList = [];
+            })
     }
 })
 export default notificationSlice.reducer
