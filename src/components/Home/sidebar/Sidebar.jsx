@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Swal from "sweetalert2";
 import { MdHomeFilled } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
@@ -13,6 +14,24 @@ function Sidbar() {
   const { notificationList } = useSelector((state) => state.notification);
   const dispatch = useDispatch();
   const { checkLoading } = useSelector((state) => state.notification);
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out of your account!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
+      background: "#000",
+      color: "#fff",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(logout());
+      }
+    });
+  };
+
   useEffect(() => {
     dispatch(notification());
   }, [dispatch]);
@@ -86,7 +105,7 @@ function Sidbar() {
 
               <div
                 className="logout cursor-pointer hover:bg-gray-900/30 rounded-full flex justify-center items-center pr-4"
-                onClick={() => dispatch(logout())}
+                onClick={handleLogout}
               >
                 <BiLogOut className="h-8 w-8 cursor-pointer" />
               </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 import { MdHomeFilled } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
@@ -11,6 +12,24 @@ const MobileNav = () => {
     const { userData } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const location = useLocation();
+
+    const handleLogout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, logout!",
+            background: "#000",
+            color: "#fff",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(logout());
+            }
+        });
+    };
 
     const isActive = (path) => location.pathname === path;
 
@@ -35,7 +54,7 @@ const MobileNav = () => {
                 />
             </Link>
             <button
-                onClick={() => dispatch(logout())}
+                onClick={handleLogout}
                 className="p-2 text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
             >
                 <BiLogOut size={28} />
