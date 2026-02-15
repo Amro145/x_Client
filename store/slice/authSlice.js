@@ -32,6 +32,14 @@ const authSlice = createSlice({
             state.loginError = null;
             state.signupError = null;
             state.error = null;
+        },
+        clearAuth: (state) => {
+            state.userData = null;
+            state.myProfile = [];
+            state.followingList = [];
+            state.followersList = [];
+            state.suggestedUserList = [];
+            localStorage.removeItem("userData");
         }
     },
     extraReducers: (builder) => {
@@ -216,5 +224,5 @@ const authSlice = createSlice({
     }
 })
 
-export const { resetErrors } = authSlice.actions;
+export const { resetErrors, clearAuth } = authSlice.actions;
 export default authSlice.reducer

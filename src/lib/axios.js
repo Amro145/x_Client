@@ -7,19 +7,16 @@ const axiosInstance = axios.create({
 
 // This function allows configuring the interceptors with Redux dispatch
 // It should be called from a React component or a setup function where useDispatch can be called.
-export const setupAxiosInterceptors = (dispatch, logoutAction) => {
+export const setupAxiosInterceptors = (dispatch, authAction) => {
     axiosInstance.interceptors.response.use(
         (response) => {
             return response;
         },
         (error) => {
             if (error.response && error.response.status === 401) {
-                // logout
-                if (dispatch && logoutAction) {
-                    dispatch(logoutAction());
+                if (dispatch && authAction) {
+                    dispatch(authAction());
                 }
-                localStorage.removeItem('userData');
-                window.location.href = '/login';
             }
             return Promise.reject(error);
         }

@@ -15,7 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import Layout from "./components/Layout";
 import { setupAxiosInterceptors } from "./lib/axios";
-import { logout as logoutAction } from "../store/api/authApi";
+import { clearAuth } from "../store/slice/authSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     // Setup axios interceptors to handle 401s
-    setupAxiosInterceptors(dispatch, logoutAction);
+    setupAxiosInterceptors(dispatch, clearAuth);
     // Check authentication status
     dispatch(checkAuth());
   }, [dispatch]);
