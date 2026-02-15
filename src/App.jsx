@@ -12,13 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "../store/api/authApi";
 import Suggested from "./components/Home/Rightpar/Suggested";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import Layout from "./components/Layout";
 import { setupAxiosInterceptors } from "./lib/axios";
 import { logout as logoutAction } from "../store/api/authApi";
 
 function App() {
-  const { userData, checkLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { checkLoading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // Setup axios interceptors to handle 401s
@@ -35,8 +36,6 @@ function App() {
     );
   }
 
-  const isAuth = userData && !Array.isArray(userData) && userData._id;
-
   return (
     <BrowserRouter>
       <Routes>
@@ -52,11 +51,19 @@ function App() {
         />
         <Route
           path="/signup"
-          element={!isAuth ? <Signup /> : <Navigate to="/" />}
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
         />
         <Route
           path="/login"
-          element={!isAuth ? <Login /> : <Navigate to="/" />}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
         />
         <Route
           path="/notification"

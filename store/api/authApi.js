@@ -23,7 +23,7 @@ export const login = createAsyncThunk("auth/login", async (data, { rejectWithVal
 })
 export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValue }) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/logout`, { withCredentials: true })
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {}, { withCredentials: true })
         return res.data
     } catch (error) {
         return rejectWithValue(error.response?.data?.message || "Logout failed");

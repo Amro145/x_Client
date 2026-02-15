@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const ProtectedRoute = ({ children }) => {
+const PublicRoute = ({ children }) => {
     const { userData, checkLoading } = useSelector((state) => state.auth);
 
     if (checkLoading) {
@@ -14,11 +14,11 @@ const ProtectedRoute = ({ children }) => {
 
     const isAuth = userData && !Array.isArray(userData) && userData._id;
 
-    if (!isAuth) {
-        return <Navigate to="/login" replace />;
+    if (isAuth) {
+        return <Navigate to="/" replace />;
     }
 
     return children;
 };
 
-export default ProtectedRoute;
+export default PublicRoute;

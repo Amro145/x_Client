@@ -8,7 +8,7 @@ import {
 import { editPassword, editProfile, followUnFollow, ProfileFn, suggestedUser } from "../api/userApi";
 
 const initialState = {
-    userData: JSON.parse(localStorage.getItem("userData")) || [],
+    userData: JSON.parse(localStorage.getItem("userData")) || null,
     loading: false,
     loginError: null,
     signupError: null,
@@ -121,7 +121,7 @@ const authSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state) => {
                 state.loading = false;
-                state.userData = [];
+                state.userData = null;
                 state.myProfile = [];
                 state.followingList = [];
                 state.followersList = [];
@@ -130,7 +130,7 @@ const authSlice = createSlice({
             })
             .addCase(logout.rejected, (state, action) => {
                 state.loading = false;
-                state.userData = [];
+                state.userData = null;
                 state.myProfile = [];
                 state.followingList = [];
                 state.followersList = [];
@@ -152,7 +152,7 @@ const authSlice = createSlice({
             .addCase(checkAuth.rejected, (state, action) => {
                 state.loading = false;
                 state.checkLoading = false;
-                state.userData = [];
+                state.userData = null;
                 state.myProfile = [];
                 localStorage.removeItem("userData");
                 state.error = action.error.message;
